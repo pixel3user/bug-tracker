@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../contexts/authContext'
-import { Popover,PopoverHandler,PopoverContent,Button } from '@material-tailwind/react'
-import { collection, getDocs, query, where } from 'firebase/firestore'
+import { getDocs, query, where } from 'firebase/firestore'
 import { database } from '../firebase'
 
 export default function NavBar() {
