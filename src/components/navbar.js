@@ -65,7 +65,7 @@ export default function NavBar() {
     <header className='h-16 bg-gray-50 fixed w-full top-0 shadow-lg'>
         <div className='w-3/4 mx-auto'>
             <div className='absolute top-2 h-12 w-12'>
-                <img src='https://firebasestorage.googleapis.com/v0/b/test-project-42b86.appspot.com/o/logo.webp?alt=media&token=e3b749a3-5896-49fe-b662-057ede9f3637'/>
+                <img src='https://firebasestorage.googleapis.com/v0/b/test-project-42b86.appspot.com/o/logo.webp?alt=media&token=6509fcd6-c2b3-4324-9db5-927d3e8f9a39'/>
             </div>
             
             <div className='flex flex-col items-end'>
