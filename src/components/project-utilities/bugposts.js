@@ -1,12 +1,11 @@
-import { async } from '@firebase/util'
 import { arrayRemove, arrayUnion, collection, getDocs, orderBy, query, updateDoc } from 'firebase/firestore'
 import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { useAuth } from '../contexts/authContext'
-import { database } from '../firebase'
-import AddComments from './addcomments'
-import Answers from './answers'
-import NavBar from './navbar'
+import { useAuth } from '../../contexts/authContext'
+import { database } from '../../firebase'
+import AddComments from '../bug-components/addcomments'
+import Answers from '../bug-components/answers'
+import NavBar from '../navbar'
 
 export default function BugPosts() {
 
@@ -15,10 +14,10 @@ export default function BugPosts() {
     const { id } = useParams()
     const {currentuser} = useAuth()
 
-    useEffect(() => {
+    useEffect(() => {                                                                   // fetch bug posts
         
         async function fetchBugPosts(){
-            const q = query(collection(database.projects,id,'data'),orderBy('votes','desc'))
+            const q = query(collection(database.projects,id,'data'),orderBy('votes','desc'))  // bug posts ordeby votes in decending order
             await getDocs(q)
             .then(files => {
                 if(files !== undefined){
@@ -33,7 +32,7 @@ export default function BugPosts() {
 
     },[])
 
-    async function deleteComment(commentDoc,bugDocRef){
+    async function deleteComment(commentDoc,bugDocRef){                                 // remove comment function
         try{
             await updateDoc(bugDocRef,{
                 comments: arrayRemove(commentDoc)
@@ -43,7 +42,7 @@ export default function BugPosts() {
         }
     }
 
-    async function upvote(bugDocRef){
+    async function upvote(bugDocRef){                                                   // adding new upvote user id
         try{
             await updateDoc(bugDocRef,{
                 votes: arrayUnion(currentuser.uid)
@@ -76,38 +75,44 @@ return (
         <div className='float-right w-4/5 mt-16'>
             <div className='flex flex-col'>
             
+            {/* All Bug posts div tag */}
+
             <div className='flex flex-col'>
-                {!loading && bugpostsdata.map(bug => (
+                {!loading && bugpostsdata.map(bug => (                                     // bug object having bug ref and bug data
                     <div className='m-3 p-1 border-[1.5px] rounded' key={bug.data.title}>
-                        <div className='flex flex-row px-8 py-3 w-full'>
+                                                                                           
+                        <div className='flex flex-row px-8 py-3 w-full'>                   {/* bug data display element */}
                             <h1 className='text-3xl'>{bug.data.title}</h1>
                             <button onClick={e => upvote(bug.ref)} className='mx-5'>Upvote</button>
                         </div>
                         <h2 className='px-8 py-1 text-xl'>{bug.data.body}</h2>
                         <h3 className='px-8 py-1 text-sm text-gray-500'>tags: {bug.data.tags}</h3>
-                        <div className='flex flex-col mx-8 my-4 border rounded '>
+
+
+                        <div className='flex flex-col mx-8 my-4 border rounded '>          {/* bug comments display element */}
                             comments: {bug.data.comments.map(item => <div key={item.comment} className='flex flex-row'>
                                 <h4>{item.comment}</h4>
                                 <h4 className='ml-2 text-sm text-gray-400'>{item.uid}</h4>
                                 <button onClick={e => deleteComment(item,bug.ref)} className='mx-2 text-sm text-gray-700'>delete</button>
                                 <hr /></div>)}
-                            <AddComments reference={bug.ref} />
+
+                            <AddComments reference={bug.ref} />                            {/* add comment to bug post component */}
+
                         </div>
-                        <h4>Answers</h4>
+
+
+                        <h4>Answers</h4>                                                   {/* bug answers display element */}
                         <hr/>
                         <div className='p-1 bg-yellow-50'>{bug.data.answers.map(answer => <h4 key={answer}>{answer}</h4>)}</div>
                         <h4>Add an Answer</h4>
-                        <Answers reference={bug.ref}/>
+
+                        <Answers reference={bug.ref}/>                                     {/* add answer to bug post component */}
+
                     </div>
                 ))}
             </div>
         </div>
 
-            {/* {!loading && (
-                <div>
-                    <AddComments projectId={id} setcommentBody={setcommentBody} />
-                </div>
-            )} */}
     </div>
     </>
   )

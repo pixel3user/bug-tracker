@@ -1,11 +1,11 @@
-import { doc, getDocs, query, setDoc, updateDoc, where } from 'firebase/firestore'
-import React, { useEffect, useRef, useState } from 'react'
+import { doc, getDocs, query, updateDoc, where } from 'firebase/firestore'
+import React, { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import { useAuth } from '../contexts/authContext'
-import { database } from '../firebase'
-import NavBar from './navbar'
+import { useAuth } from '../../contexts/authContext'
+import { database } from '../../firebase'
+import NavBar from '../navbar'
 
-export default function EditProject() {
+export default function EditProject() {                               // edit your project page
 
     const [name,setname] = useState()
     const [tags,settags] = useState()
@@ -18,28 +18,28 @@ export default function EditProject() {
 
     const { id } = useParams()
 
-    async function updateProject(e){
+    async function updateProject(e){                                  // update project data submit handler
         e.preventDefault()
 
         try{
-            await updateDoc(database.project(id),{
+            await updateDoc(database.project(id),{                    // update project info collection
                 name: name,
                 description: description,
                 tags: tags,
                 repoLink: repoLink
-            }).then(navigate('/my-projects'))
+            }).then(navigate('/my-projects'))                         // redirect to my-project page after updating project
         }catch(error){
             console.log(error)
         }
     }
 
-    useEffect(() => {
+    useEffect(() => {                                                 // fetch project details on page load
 
         async function fetchProject(){
-            const projectsQuery = query(database.projectsGroup('info'),where('name','==',id))
-            await getDocs(projectsQuery).then(existingFiles => {
+            const projectsQuery = query(database.projectsGroup('info'),where('name','==',id)) // does not really required a query here but i don't want to change it rn
+            await getDocs(projectsQuery).then(existingFiles => {      // instead of query edit:- (database.project(id)) can be used
                 const existingFile = existingFiles.docs[0]
-                if(existingFile !== undefined){
+                if(existingFile !== undefined){                       // adding project old data to all input field for changes
                     setprojectData(existingFile.data())
                     setname(existingFile.data().name)
                     setdescription(existingFile.data().description)
@@ -76,7 +76,7 @@ export default function EditProject() {
             <div></div>
           </aside>
         
-        {projectData && (projectData.admin == currentuser.uid ? (
+        {projectData && (projectData.admin == currentuser.uid ? (               // update project details form
             <div className='float-right w-4/5 mt-16'>
             <form className='flex flex-col m-10 p-2 border-[1.5px] rounded' onSubmit={updateProject}>
                 <label className='text-xl font-semibold mx-auto'>Edit Project</label>

@@ -1,24 +1,23 @@
-import { doc, getDoc, query } from 'firebase/firestore'
+import { getDoc } from 'firebase/firestore'
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
-import { useAuth } from '../contexts/authContext'
-import { database } from '../firebase'
-import NavBar from './navbar'
+import { Link, useParams } from 'react-router-dom'
+import { database } from '../../firebase'
+import NavBar from '../navbar'
 
-export default function Profile() {
-    const { currentuser } = useAuth()
+export default function OtherProfile() {                                                  // other user profile page
     const [profileData , setprofileData] = useState()
     const [error, seterror] = useState('')
     const [loading , setloading] = useState(true)
+    const {id} = useParams()
 
-    useEffect(() => {
+    useEffect(() => {                                                                    // fetch any user id
         async function fetchProfileData(){
-            const ref = database.user(currentuser.uid)
+            const ref = database.user(id)                                                // ref to user id
             try{
-                const data = await getDoc(ref)
+                const data = await getDoc(ref)                            
                 if(data.exists()){
-                    setprofileData(data.data())
-                    setloading(false)
+                    setprofileData(data.data())                                          // add data to profileData state
+                    setloading(false)                                                    // stops loading
                 }else{
                     seterror('Error cannot fetch data from server!')
                 }
@@ -34,7 +33,7 @@ export default function Profile() {
     <>
         <NavBar />
 
-        <aside className='w-1/5 fixed mt-16 left-0 top-0 h-screen border-r-[1.5px]'>
+        <aside className='w-1/5 fixed mt-16 left-0 top-0 h-screen border-r-[1.5px]'>              
             <div className='float-right flex flex-col mt-5'>
               <Link to={'/home'} className='flex flex-row mb-2'>
                 <h1 className='mr-20 p-2 text-md'>Home</h1>
@@ -55,7 +54,6 @@ export default function Profile() {
                 {!loading && <img src={profileData.profilePic} className='w-24 h-24 m-3 object-contain' />}
                 {!loading && <h2 className='mx-3'>Username: {profileData.username}</h2>}
                 {!loading && <h2 className='mx-3'>Email: {profileData.email}</h2>}
-                {!loading && <Link to={'/update-profile'} className='bg-green-400 rounded-lg p-1 h-fit'>Update profile</Link>}
             </div>
         </div>
     </>

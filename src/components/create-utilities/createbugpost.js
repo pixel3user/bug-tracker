@@ -1,8 +1,8 @@
 import { addDoc, collection } from 'firebase/firestore'
 import React, { useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import { database } from '../firebase'
-import NavBar from './navbar'
+import { database } from '../../firebase'
+import NavBar from '../navbar'
 
 export default function CreateBugPost() {
     const [title,settitle] = useState()
@@ -11,10 +11,10 @@ export default function CreateBugPost() {
     const { id } = useParams()
     const navigate = useNavigate()
 
-    async function createBugPost(e){
+    async function createBugPost(e){                                          // form submit function
         e.preventDefault()
         try{
-            await addDoc(collection(database.projects,id,'data'),{
+            await addDoc(collection(database.projects,id,'data'),{            // adding bug post data to project CollectionGroup data
                 title: title,
                 body: body,
                 tags: tags,
@@ -22,7 +22,7 @@ export default function CreateBugPost() {
                 answers: [],
                 creationTime: database.getCurrentTimeStamp(),
                 votes: []
-            }).then(navigate(`/${id}/bugposts`))
+            }).then(navigate(`/${id}/bugposts`))                              // redirecting to all bugposts after form submission
         }catch(error){
             console.log(error)
         }
@@ -31,8 +31,8 @@ export default function CreateBugPost() {
   return (
     <>
         <NavBar />
-
-        <aside className='w-1/5 fixed mt-16 left-0 top-0 h-screen border-r-[1.5px]'>
+        
+        <aside className='w-1/5 fixed mt-16 left-0 top-0 h-screen border-r-[1.5px]'>      {/* left side bar */}
             <div className='float-right flex flex-col mt-5'>
               <Link to={'/home'} className='flex flex-row mb-2'>
                 <h1 className='mr-20 p-2 text-md'>Home</h1>
@@ -47,7 +47,7 @@ export default function CreateBugPost() {
             <div></div>
           </aside>
 
-        <div className='float-right w-4/5 mt-16'>
+        <div className='float-right w-4/5 mt-16'>                                                       {/* add bugpost form */}
             <form className='flex flex-col m-10 p-2 border-[1.5px] rounded' onSubmit={createBugPost}>
                 <label className='text-xl font-semibold mx-auto'>Create a Bug Post</label>
                 <input className='p-1 m-3 border-[1.5px] border-gray-400 rounded' placeholder='Title' onChange={e => settitle(e.target.value)}/>

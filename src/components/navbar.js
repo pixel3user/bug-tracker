@@ -4,7 +4,7 @@ import { useAuth } from '../contexts/authContext'
 import { getDocs, query, where } from 'firebase/firestore'
 import { database } from '../firebase'
 
-export default function NavBar() {
+export default function NavBar() {                          // i really never have to change this shitty navbar so , lets just save time here. bye
 
     const [menuItems, setmenuItems] = useState('hidden')
     const { currentuser, logout } = useAuth()

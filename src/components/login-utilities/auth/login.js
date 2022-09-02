@@ -1,18 +1,17 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useAuth } from '../../contexts/authContext'
-import NavBar from '../navbar'
+import { useAuth } from '../../../contexts/authContext'
 export default function Login() {
     
     const { login } = useAuth()
     const navigate = useNavigate()
 
-    async function submitloginhandler(e){
+    async function submitloginhandler(e){                       // login handler
         e.preventDefault()
     
         try{
-          await login()
-          navigate('/create-account')
+          await login()                                         // github login function from useAuth context component
+          navigate('/create-account')                           // redirecting to create account page after login
         }catch(error){
           console.log("Error bc",error)
         }
@@ -20,10 +19,11 @@ export default function Login() {
 
 
   return (
-    // <div className='flex flex-col'>
-      // <button className='bg-blue-300 w-fit mx-auto' onClick={submitloginhandler}>Login now</button>
-    // </div>
-    <div className="flex flex-col items-center justify-center sm:h-screen">
+
+                                                                // login form
+
+
+    <div className="flex flex-col items-center justify-center sm:h-screen">               
       <div className='flex flex-col mx-auto sm:border-[1px] sm:px-32 py-12 sm:rounded-xl sm:border-gray-300'>
         <form className='flex flex-col' onSubmit={submitloginhandler}>
             <img src='https://firebasestorage.googleapis.com/v0/b/test-project-42b86.appspot.com/o/logo.webp?alt=media&token=6509fcd6-c2b3-4324-9db5-927d3e8f9a39' className='object-scale-down h-12' />

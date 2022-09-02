@@ -1,27 +1,28 @@
-import { doc, getDoc, getDocs, query, setDoc, where } from 'firebase/firestore'
+import { getDoc, setDoc} from 'firebase/firestore'
 import React, { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useAuth } from '../contexts/authContext'
-import { database } from '../firebase'
+import { useAuth } from '../../contexts/authContext'
+import { database } from '../../firebase'
 
+// creating username page ,,, adding user to database
 export default function CreateAccount() {
 
-    const navigate = useNavigate()
+    const navigate = useNavigate() 
     const usernameRef = useRef()
     const [formvisibility,setformvisibility] = useState(false)
     const { currentuser } = useAuth()
 
-    async function addNewUser(e){
+    async function addNewUser(e){                                     // firebase custom function to add new user to database
         e.preventDefault()
         
         try{
-          await setDoc(database.user(currentuser.uid),{
+          await setDoc(database.user(currentuser.uid),{               // add user doc to database users collection
             username: usernameRef.current.value,
             uid: currentuser.uid,
             email: currentuser.email,
             profilePic: currentuser.photoURL
           })
-          await setDoc(database.public(currentuser.uid),{
+          await setDoc(database.public(currentuser.uid),{             // adding user to database in public collection
             uid: currentuser.uid,
             requests: []
           })
@@ -29,13 +30,13 @@ export default function CreateAccount() {
           console.log(error)
         }
 
-        navigate('/home')
+        navigate('/home')                                             // redirecting to home page after creating user
       }
 
     useEffect( () => {
         async function fetch(){
           const ref = database.user(currentuser.uid)
-          const docSnap = await getDoc(ref)
+          const docSnap = await getDoc(ref)                           // checking if existing user database exists in users collection
           if(docSnap.exists()){
             if(!docSnap.data().username){
               setformvisibility(true)
@@ -45,23 +46,14 @@ export default function CreateAccount() {
           }else{
             setformvisibility(true)
           }
-          // const q = query(database.users, where('uid','==',currentuser.uid))
-          // const querySnapshot = await getDocs(q)
-          // console.log(querySnapshot.exist())
-          // querySnapshot.forEach(doc => {
-          //   if(doc){
-          //     navigate('/home')
-          //   }else{
-          //     console.log('hi')
-          //     setformvisibility(true)
-          //   }
-          // })
+          
         }
 
         fetch()
     })
 
   return (
+    // username input form
     <div className="flex flex-col items-center justify-center sm:h-screen">
       {formvisibility && (
           <div className='flex flex-col mx-auto sm:border-[1px] sm:px-32 py-12 sm:rounded-xl sm:border-gray-300'>

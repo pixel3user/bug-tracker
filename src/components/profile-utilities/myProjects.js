@@ -1,34 +1,33 @@
 import { getDocs, query, where } from 'firebase/firestore'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { useAuth } from '../contexts/authContext'
-import { database } from '../firebase'
-import NavBar from './navbar'
+import { useAuth } from '../../contexts/authContext'
+import { database } from '../../firebase'
+import NavBar from '../navbar'
 
-export default function MyProjects() {
+export default function MyProjects() {                                              // my project page
     
     const { currentuser } = useAuth()
     const [myProjectsData,setmyProjectsData] = useState([])
     const [projectsData,setprojectsData] = useState([])
-    // const [projectsExists,setprojectsExists] = useState(true)
 
-    useEffect(() => {
+    useEffect(() => {                                                               // fetch all project
 
         async function fetchProjects(){
             let myProjectDataArray = []
             let projectDataArray = []
             const myProjectsQuery = query(database.projectsGroup('info'),where('admin','==',currentuser.uid))
             const projectsQuery = query(database.projectsGroup('info'),where('participants','array-contains',currentuser.uid))
-            const myProjectsQuerySnapshot = await getDocs(myProjectsQuery)
-            const projectsQuerySnapshot = await getDocs(projectsQuery)
+            const myProjectsQuerySnapshot = await getDocs(myProjectsQuery)          // fetch user created project
+            const projectsQuerySnapshot = await getDocs(projectsQuery)              // fetch project user has access to
 
             myProjectsQuerySnapshot.forEach((doc) => {
-                myProjectDataArray.push(doc.data())
+                myProjectDataArray.push(doc.data())                                 // push user project in myProjectDataArray state
             })
             setmyProjectsData(myProjectDataArray)
 
             projectsQuerySnapshot.forEach((doc) => {
-                projectDataArray.push(doc.data())
+                projectDataArray.push(doc.data())                                   // push rest project in projectDataArray state
             })
             setprojectsData(projectDataArray)
 
@@ -36,15 +35,13 @@ export default function MyProjects() {
 
         fetchProjects()
     },[])
-    console.log(myProjectsData)
-    console.log(projectsData)
 
   return (
     <>
         <NavBar />
         
 
-        <aside className='w-1/5 fixed mt-16 left-0 top-0 h-screen border-r-[1.5px]'>
+        <aside className='w-1/5 fixed mt-16 left-0 top-0 h-screen border-r-[1.5px]'>          {/* left side bar */}
             <div className='float-right flex flex-col mt-5'>
               <Link to={'/home'} className='flex flex-row mb-2'>
                 <h1 className='mr-20 p-2 text-md'>Home</h1>
@@ -59,9 +56,12 @@ export default function MyProjects() {
             <div></div>
           </aside>
 
-            <div className='flex flex-row float-right w-4/5 mt-16'>
+            <div className='flex flex-row float-right w-4/5 mt-16'>                                 {/* all projects div tag */}
+
                 <div className='flex w-full p-2'>
-                    <div className='flex flex-col w-1/2'>
+
+                                                                                                    
+                    <div className='flex flex-col w-1/2'>                                           {/* my projects div tag */}
                         <span>My Projects</span>
                         {/* {!projectsExists && <span>No projects</span>} */}
                         {myProjectsData && <div>{myProjectsData.map(doc => <div className='flex flex-row bg-gray-50 border rounded mt-2 mr-16' key={doc.name}>
@@ -74,7 +74,7 @@ export default function MyProjects() {
                         </div>)}</div>}
                     </div>
 
-                    <div className='flex flex-col w-1/2'>
+                    <div className='flex flex-col w-1/2'>                                          {/* rest projects div tag */}
                         <span>Projects</span>
                         {/* {!projectsExists && <span>No projects</span>} */}
                         {projectsData && <div>{projectsData.map(doc => <div className='flex flex-row bg-gray-50 border rounded mt-2 mr-16' key={doc.name}>

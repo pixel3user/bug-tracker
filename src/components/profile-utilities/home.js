@@ -1,36 +1,35 @@
-import { arrayRemove, arrayUnion, collection, getDoc, query, updateDoc, where } from 'firebase/firestore'
+import { arrayRemove, arrayUnion, getDoc, updateDoc} from 'firebase/firestore'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { useAuth } from '../contexts/authContext'
-import { database } from '../firebase'
-import NavBar from './navbar'
+import { useAuth } from '../../contexts/authContext'
+import { database } from '../../firebase'
+import NavBar from '../navbar'
 
 export default function Home() {
 
   const {currentuser} = useAuth()
   const [requestData,setrequestData] = useState([])
 
-  useEffect(() => {
+  useEffect(() => {                                                           // fetch pending project access requests.
     setrequestData([])
     async function fetchPublicData(){
-      const docSnap = await getDoc(database.public(currentuser.uid))
+      const docSnap = await getDoc(database.public(currentuser.uid))          // fetchs requests for the current user.
       setrequestData(docSnap.data().requests)
     }
 
     fetchPublicData()
   },[])
 
-  async function grantAccess(doc){
+  async function grantAccess(doc){                                            // accepting requests
     try{
-      // const q = query(database.projectsGroup('info'),where('name','==',doc.project))
-      await updateDoc(database.project(doc.project),{
+      await updateDoc(database.project(doc.project),{                         // update participants of projects
         participants: arrayUnion(doc.from)
       }).then(async () => {
         try{
-          await updateDoc(database.public(currentuser.uid),{
+          await updateDoc(database.public(currentuser.uid),{                  // removing request if accepted
             requests: arrayRemove(doc)
           })
-          setrequestData(requestData.filter(item => item != doc))
+          setrequestData(requestData.filter(item => item != doc))             // filter new requests in list
         }catch(error){
           console.log(error)
         }
@@ -40,14 +39,12 @@ export default function Home() {
     }
   }
 
-  // requestData.forEach(doc => console.log(doc.project))
-  // console.log(requestData)
 
   return (
     <>
         <NavBar />
 
-          <aside className='w-1/5 fixed mt-16 left-0 top-0 h-screen border-r-[1.5px]'>
+          <aside className='w-1/5 fixed mt-16 left-0 top-0 h-screen border-r-[1.5px]'>                    {/* left side bar */}  
             <div className='float-right flex flex-col mt-5'>
               <Link to={'/home'} className='flex flex-row bg-gray-200 rounded-l-lg mb-2 border-r-[3px] border-green-500'>
                 <h1 className='mr-20 p-2 text-md'>Home</h1>
@@ -67,10 +64,10 @@ export default function Home() {
               
               <Link className='mx-auto' to={'/my-projects'}>My Projects</Link>
 
-              <div className='mx-auto m-4 p-1 bg-gray-100 border-[1.5px] rounded'>
+              <div className='mx-auto m-4 p-1 bg-gray-100 border-[1.5px] rounded'>                      {/* Requests list */}
                 Access Requests
                 <hr />
-                {requestData.map(doc => (
+                {requestData.map(doc => (   
                   <div key={doc.from}>
                     <Link to={`/profile/${doc.from}`}>Username: {doc.from}</Link>
                     <h1>Project: {doc.project}</h1>

@@ -1,7 +1,7 @@
 import React from 'react'
-import NavBar from './navbar'
+import NavBar from '../navbar'
 
-export default function Dashboard() {
+export default function Dashboard() {                               // main welcome page
 
   return (
     <>

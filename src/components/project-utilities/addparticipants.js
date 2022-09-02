@@ -1,6 +1,6 @@
 import { arrayUnion, getDocs, query, updateDoc, where } from 'firebase/firestore'
 import React, { useState } from 'react'
-import { database } from '../firebase'
+import { database } from '../../firebase'
 
 export default function({projectRef}) {
     

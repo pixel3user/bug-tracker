@@ -1,9 +1,9 @@
 import { doc, setDoc } from 'firebase/firestore'
 import React, { useRef } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { useAuth } from '../contexts/authContext'
-import { database } from '../firebase'
-import NavBar from './navbar'
+import { useAuth } from '../../contexts/authContext'
+import { database } from '../../firebase'
+import NavBar from '../navbar'
 
 export default function CreateProject() {
 
@@ -14,11 +14,11 @@ export default function CreateProject() {
     const navigate = useNavigate()
     const { currentuser } = useAuth()
 
-    async function createProject(e){
+    async function createProject(e){                                                      // create project form onsubmit function
         e.preventDefault()
 
         try{
-            await setDoc(doc(database.projects,titleRef.current.value,'info','data'),{
+            await setDoc(doc(database.projects,titleRef.current.value,'info','data'),{    // adding info collection to project collection in database
                 name: titleRef.current.value,
                 description: descriptionRef.current.value,
                 tags: tagsRef.current.value,
@@ -26,7 +26,7 @@ export default function CreateProject() {
                 answers: [],
                 participants: [],
                 repoLink: repoRef.current.value
-            }).then(navigate('/my-projects'))
+            }).then(navigate('/my-projects'))                                             // redirecting after adding the info collection
         }catch(error){
             console.log(error)
         }
@@ -36,7 +36,7 @@ export default function CreateProject() {
     <>
         <NavBar />
 
-        <aside className='w-1/5 fixed mt-16 left-0 top-0 h-screen border-r-[1.5px]'>
+        <aside className='w-1/5 fixed mt-16 left-0 top-0 h-screen border-r-[1.5px]'>          {/* left side bar */}
             <div className='float-right flex flex-col mt-5'>
               <Link to={'/home'} className='flex flex-row mb-2'>
                 <h1 className='mr-20 p-2 text-md'>Home</h1>
@@ -51,7 +51,7 @@ export default function CreateProject() {
             <div></div>
           </aside>
 
-        <div className='float-right w-4/5 mt-16'>
+        <div className='float-right w-4/5 mt-16'>                                                         {/* create project form */}
             <form className='flex flex-col m-10 p-2 border-[1.5px] rounded' onSubmit={createProject}>
                 <label className='text-xl font-semibold mx-auto'>Create a New Project</label>
                 <input ref={titleRef} className='p-1 m-3 border-[1.5px] border-gray-400 rounded' placeholder='Project Name' />

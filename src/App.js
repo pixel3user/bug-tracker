@@ -1,20 +1,20 @@
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { AuthProvider } from './contexts/authContext';
-import Dashboard from './components/dashboard';
-import Login from './components/auth/login';
-import Home from './components/home';
-import PrivateRoute from './components/auth/privateRoute';
-import CreateProject from './components/createproject';
-import Profile from './components/profile';
-import CreateAccount from './components/createaccount';
-import UpdateProfile from './components/updateprofile';
-import MyProjects from './components/myProjects';
-import Project from './components/project';
-import CreateBugPost from './components/createbugpost';
-import BugPosts from './components/bugposts';
-import OtherProfile from './components/otherprofile';
-import EditProject from './components/editProject';
+import Dashboard from './components/login-utilities/dashboard';
+import Login from './components/login-utilities/auth/login';
+import Home from './components/profile-utilities/home';
+import PrivateRoute from './components/login-utilities/auth/privateRoute';
+import CreateProject from './components/create-utilities/createproject';
+import Profile from './components/profile-utilities/profile';
+import CreateAccount from './components/create-utilities/createaccount';
+import UpdateProfile from './components/profile-utilities/updateprofile';
+import MyProjects from './components/profile-utilities/myProjects';
+import Project from './components/project-utilities/project';
+import CreateBugPost from './components/create-utilities/createbugpost';
+import BugPosts from './components/project-utilities/bugposts';
+import OtherProfile from './components/profile-utilities/otherprofile';
+import EditProject from './components/project-utilities/editProject';
 
 function App() {
 
@@ -22,19 +22,33 @@ function App() {
     <AuthProvider>
       <Router>
         <Routes>
+
+        {/* Login routes */}
+
           <Route path='/login' element={<Login />} />
           <Route path='/' element={<Dashboard />} />
+          
+          {/* Profile utilities */}
+
           <Route path='/home' element={<PrivateRoute><Home /></PrivateRoute>} />
-          <Route path='/create-project' element={<PrivateRoute><CreateProject/></PrivateRoute>} />
           <Route path='/profile' element={<PrivateRoute><Profile /></PrivateRoute>} />
-          <Route path='/profile/:id' element={<PrivateRoute><OtherProfile /></PrivateRoute>} />
-          <Route path='/create-account' element={<PrivateRoute><CreateAccount /></PrivateRoute>} />
-          <Route path='/update-profile' element={<PrivateRoute><UpdateProfile /></PrivateRoute>} />
           <Route path='/my-projects' element={<PrivateRoute><MyProjects /></PrivateRoute>} />
+          <Route path='/update-profile' element={<PrivateRoute><UpdateProfile /></PrivateRoute>} />
+          <Route path='/profile/:id' element={<PrivateRoute><OtherProfile /></PrivateRoute>} />
+
+          {/* Project utilities */}
+
           <Route path='/:id' element={<PrivateRoute><Project /></PrivateRoute>} />
-          <Route path='/:id/addbugpost' element={<PrivateRoute><CreateBugPost /></PrivateRoute>} />
           <Route path='/:id/bugposts' element={<PrivateRoute><BugPosts /></PrivateRoute>} />
           <Route path='/:id/edit' element={<PrivateRoute><EditProject /></PrivateRoute>} />
+
+          {/* Create utilities */}
+
+          <Route path='/create-project' element={<PrivateRoute><CreateProject/></PrivateRoute>} />
+          <Route path='/create-account' element={<PrivateRoute><CreateAccount /></PrivateRoute>} />
+          <Route path='/:id/addbugpost' element={<PrivateRoute><CreateBugPost /></PrivateRoute>} />
+
+
         </Routes>
       </Router>
     </AuthProvider>
