@@ -20,7 +20,8 @@ export default function CreateBugPost() {
                 tags: tags,
                 comments: [],
                 answers: [],
-                creationTime: database.getCurrentTimeStamp()
+                creationTime: database.getCurrentTimeStamp(),
+                votes: []
             }).then(navigate(`/${id}/bugposts`))
         }catch(error){
             console.log(error)

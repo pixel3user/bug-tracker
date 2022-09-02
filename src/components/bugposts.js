@@ -1,7 +1,8 @@
 import { async } from '@firebase/util'
-import { arrayRemove, collection, getDocs, orderBy, updateDoc } from 'firebase/firestore'
+import { arrayRemove, arrayUnion, collection, getDocs, orderBy, query, updateDoc } from 'firebase/firestore'
 import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
+import { useAuth } from '../contexts/authContext'
 import { database } from '../firebase'
 import AddComments from './addcomments'
 import Answers from './answers'
@@ -12,11 +13,13 @@ export default function BugPosts() {
     const [bugpostsdata,setbugpostsdata] = useState([])
     const [loading,setloading] = useState(true)
     const { id } = useParams()
+    const {currentuser} = useAuth()
 
     useEffect(() => {
         
         async function fetchBugPosts(){
-            await getDocs(collection(database.projects,id,'data'))
+            const q = query(collection(database.projects,id,'data'),orderBy('votes','desc'))
+            await getDocs(q)
             .then(files => {
                 if(files !== undefined){
                     setbugpostsdata(files.docs.map(file => ({data:file.data(),ref: file.ref})))
@@ -34,6 +37,16 @@ export default function BugPosts() {
         try{
             await updateDoc(bugDocRef,{
                 comments: arrayRemove(commentDoc)
+            })
+        }catch(error){
+            console.log(error)
+        }
+    }
+
+    async function upvote(bugDocRef){
+        try{
+            await updateDoc(bugDocRef,{
+                votes: arrayUnion(currentuser.uid)
             })
         }catch(error){
             console.log(error)
@@ -66,7 +79,10 @@ return (
             <div className='flex flex-col'>
                 {!loading && bugpostsdata.map(bug => (
                     <div className='m-3 p-1 border-[1.5px] rounded' key={bug.data.title}>
-                        <h1 className='text-3xl px-8 py-3'>{bug.data.title}</h1>
+                        <div className='flex flex-row px-8 py-3 w-full'>
+                            <h1 className='text-3xl'>{bug.data.title}</h1>
+                            <button onClick={e => upvote(bug.ref)} className='mx-5'>Upvote</button>
+                        </div>
                         <h2 className='px-8 py-1 text-xl'>{bug.data.body}</h2>
                         <h3 className='px-8 py-1 text-sm text-gray-500'>tags: {bug.data.tags}</h3>
                         <div className='flex flex-col mx-8 my-4 border rounded '>
