@@ -1,5 +1,5 @@
 import { addDoc, collection } from 'firebase/firestore'
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { database } from '../../firebase'
 import NavBar from '../navbar'
@@ -10,6 +10,7 @@ export default function CreateBugPost() {
     const [tags,settags] = useState()
     const { id } = useParams()
     const navigate = useNavigate()
+    const selectedTextRef = useRef()
 
     async function createBugPost(e){                                          // form submit function
         e.preventDefault()
@@ -27,6 +28,14 @@ export default function CreateBugPost() {
             console.log(error)
         }
     }
+
+    // function setTextToCode(e){
+    //   e.preventDefault()
+    //   let cursorStart = selectedTextRef.selectionStart
+    //   let cursorEnd = selectedTextRef.selectionEnd
+    //   console.log(cursorStart,cursorEnd)
+    //   // console.log(selectedTextRef.current.value.substring(cursorStart,cursorEnd))
+    // }
 
   return (
     <>
@@ -51,7 +60,12 @@ export default function CreateBugPost() {
             <form className='flex flex-col m-10 p-2 border-[1.5px] rounded' onSubmit={createBugPost}>
                 <label className='text-xl font-semibold mx-auto'>Create a Bug Post</label>
                 <input className='p-1 m-3 border-[1.5px] border-gray-400 rounded' placeholder='Title' onChange={e => settitle(e.target.value)}/>
-                <textarea className='p-1 m-3 h-48 border-[1.5px] border-gray-400 rounded' placeholder='Body' onChange={e => setbody(e.target.value)}/>
+                <div className='flex flex-col m-3 h-48 border-[1.5px] border-gray-400 rounded'>
+                  {/* <div className='flex flex-row bg-gray-200'>
+                    <button onClick={setTextToCode} className='my-1 mx-4 bg-gray-300 rounded-lg shadow-lg'>code</button>
+                  </div> */}
+                  <textarea ref={selectedTextRef} className='p-1 h-full' placeholder='Body' onChange={e => setbody(e.target.value)}/>
+                </div>
                 <input className='p-1 m-3 border-[1.5px] border-gray-400 rounded' placeholder='Tags' onChange={e => settags(e.target.value)}/>
                 <button className='text-white m-3 font-medium mt-7 px-4 py-1 w-fit border outline-none rounded bg-blue-500 hover:bg-blue-600 hover:shadow-sm hover:shadow-blue-600'>Create</button>
             </form>

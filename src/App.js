@@ -15,6 +15,7 @@ import CreateBugPost from './components/create-utilities/createbugpost';
 import BugPosts from './components/project-utilities/bugposts';
 import OtherProfile from './components/profile-utilities/otherprofile';
 import EditProject from './components/project-utilities/editProject';
+import BugPost from './components/project-utilities/bugpost';
 
 function App() {
 
@@ -40,6 +41,7 @@ function App() {
 
           <Route path='/:id' element={<PrivateRoute><Project /></PrivateRoute>} />
           <Route path='/:id/bugposts' element={<PrivateRoute><BugPosts /></PrivateRoute>} />
+          <Route path='/:id/:bugid' element={<PrivateRoute><BugPost /></PrivateRoute>} />
           <Route path='/:id/edit' element={<PrivateRoute><EditProject /></PrivateRoute>} />
 
           {/* Create utilities */}
