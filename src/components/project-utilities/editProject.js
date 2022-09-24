@@ -7,7 +7,6 @@ import NavBar from '../navbar'
 
 export default function EditProject() {                               // edit your project page
 
-    const [name,setname] = useState()
     const [tags,settags] = useState()
     const [description,setdescription] = useState()
     const [repoLink,setrepoLink] = useState()
@@ -23,7 +22,6 @@ export default function EditProject() {                               // edit yo
 
         try{
             await updateDoc(database.project(id),{                    // update project info collection
-                name: name,
                 description: description,
                 tags: tags,
                 repoLink: repoLink
@@ -40,7 +38,6 @@ export default function EditProject() {                               // edit yo
                 const existingFile = existingFiles.docs[0]
                 if(existingFile !== undefined){                       // adding project old data to all input field for changes
                     setprojectData(existingFile.data())
-                    setname(existingFile.data().name)
                     setdescription(existingFile.data().description)
                     settags(existingFile.data().tags)
                     setrepoLink(existingFile.data().repoLink)
@@ -58,10 +55,9 @@ export default function EditProject() {                               // edit yo
   return (
     <>
         
-        {projectData && (projectData.admin == currentuser.uid ? (               // update project details form
+        {projectData && (projectData.admin.uid == currentuser.uid ? (               // update project details form
             <form className='flex flex-col m-10 p-2 border-[1.5px] rounded' onSubmit={updateProject}>
                 <label className='text-xl font-semibold mx-auto'>Edit Project</label>
-                <input value={`${name}`} onChange={e => setname(e.target.value)} className='p-1 m-3 border-[1.5px] border-gray-400 rounded dark:bg-gray-700' placeholder='Project Name' />
                 <textarea value={`${description}`} onChange={e => setdescription(e.target.value)} className='p-1 m-3 h-48 border-[1.5px] border-gray-400 rounded dark:bg-gray-700' placeholder='Project Description' />
                 <input value={`${tags}`} onChange={e => settags(e.target.value)} className='p-1 m-3 border-[1.5px] border-gray-400 rounded dark:bg-gray-700' placeholder='Tags' />
                 <input value={`${repoLink}`} onChange={e => setrepoLink(e.target.value)} className='p-1 m-3 border-[1.5px] border-gray-400 rounded dark:bg-gray-700' placeholder='Link to repo' />

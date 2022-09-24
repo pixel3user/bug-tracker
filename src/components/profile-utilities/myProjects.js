@@ -7,7 +7,7 @@ import NavBar from '../navbar'
 
 export default function MyProjects() {                                              // my project page
     
-    const { currentuser } = useAuth()
+    const { currentuser, username } = useAuth()
     const [myProjectsData,setmyProjectsData] = useState([])
     const [projectsData,setprojectsData] = useState([])
 
@@ -15,25 +15,27 @@ export default function MyProjects() {                                          
         async function fetchProjects(){
             let myProjectDataArray = []
             let projectDataArray = []
-            const myProjectsQuery = query(database.projectsGroup('info'),where('admin','==',currentuser.uid))
-            const projectsQuery = query(database.projectsGroup('info'),where('participants','array-contains',currentuser.uid))
-            const myProjectsQuerySnapshot = await getDocs(myProjectsQuery)          // fetch user created project
-            const projectsQuerySnapshot = await getDocs(projectsQuery)              // fetch project user has access to
+            if(username != undefined){
+                const myProjectsQuery = query(database.projectsGroup('info'),where('admin','==',{uid:currentuser.uid,username:username}))
+                const projectsQuery = query(database.projectsGroup('info'),where('participants','array-contains',{uid:currentuser.uid,username:username}))
+                const myProjectsQuerySnapshot = await getDocs(myProjectsQuery)          // fetch user created project
+                const projectsQuerySnapshot = await getDocs(projectsQuery)              // fetch project user has access to
 
-            myProjectsQuerySnapshot.forEach((doc) => {
-                myProjectDataArray.push(doc.data())                                 // push user project in myProjectDataArray state
-            })
-            setmyProjectsData(myProjectDataArray)
+                myProjectsQuerySnapshot.forEach((doc) => {
+                    myProjectDataArray.push(doc.data())                                 // push user project in myProjectDataArray state
+                })
+                setmyProjectsData(myProjectDataArray)
 
-            projectsQuerySnapshot.forEach((doc) => {
-                projectDataArray.push(doc.data())                                   // push rest project in projectDataArray state
-            })
-            setprojectsData(projectDataArray)
+                projectsQuerySnapshot.forEach((doc) => {
+                    projectDataArray.push(doc.data())                                   // push rest project in projectDataArray state
+                })
+                setprojectsData(projectDataArray)
+            }
 
         }
 
         fetchProjects()
-    },[])
+    },[username])
 
   return (
     <>
@@ -49,7 +51,7 @@ export default function MyProjects() {                                          
                         {myProjectsData && <div>{myProjectsData.map(doc => <div className='flex flex-row bg-gray-50 border rounded mt-2 mr-16 dark:border-gray-500 dark:bg-black' key={doc.name}>
                             <div className='flex flex-col'>
                                 <Link to={`/${doc.name}`} className='px-3 mt-3'>Project Name: {doc.name}</Link>
-                                <h2 className='px-3 mt-3'>Admin: {doc.admin}</h2>
+                                <h2 className='px-3 mt-3'>Admin: {doc.admin.username}</h2>
                                 <h3 className='p-3'>Project description: {doc.tags}</h3>
                             </div>
                             <Link to={`/${doc.name}`} className='bg-green-300 rounded-xl p-1 h-fit'>Open project</Link>

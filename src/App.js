@@ -111,7 +111,7 @@ function App() {
               <Route path='/profile' element={<PrivateRoute><Element page={"/profile"}/></PrivateRoute>} />
               <Route path='/my-projects' element={<PrivateRoute><Element page={"/my-projects"}/></PrivateRoute>} />
               <Route path='/update-profile' element={<PrivateRoute><Element page={"/update-profile"}/></PrivateRoute>} />
-              <Route path='/profile/:id' element={<PrivateRoute><Element page={"/other-profile"}/>></PrivateRoute>} />
+              <Route path='/profile/:id' element={<PrivateRoute><Element page={"/other-profile"}/></PrivateRoute>} />
 
               {/* Project utilities */}
 

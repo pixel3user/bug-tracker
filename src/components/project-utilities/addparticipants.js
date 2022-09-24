@@ -1,12 +1,12 @@
 import { arrayUnion, getDocs, query, updateDoc, where } from 'firebase/firestore'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { database } from '../../firebase'
 
 export default function({projectRef}) {
     
     const [participantUsername,setparticipantUsername] = useState()
     const [showForm,setshowForm] = useState(false)
-
+    const [searchResultUser, setsearchResultUser] = useState()
 
     async function submitHandler(e){
         e.preventDefault()
@@ -19,7 +19,7 @@ export default function({projectRef}) {
 
             try{
                 updateDoc(projectRef,{
-                    participants: arrayUnion(existingFiles.docs[0].data().uid)
+                    participants: arrayUnion({uid:existingFiles.docs[0].data().uid,username:participantUsername})
                 })
             }catch(error){
                 console.log(error)
@@ -30,6 +30,25 @@ export default function({projectRef}) {
         setshowForm(false)
         
     }
+
+    useEffect(() => {
+        async function search(){
+            if(!participantUsername){
+                return
+            }
+            setsearchResultUser([])
+            const qUser = query(database.users,where('username','==',participantUsername))
+            await getDocs(qUser).then(existingFiles => {
+                if(existingFiles.docs[0] != undefined){
+                    setsearchResultUser(existingFiles.docs[0].data())
+                }
+            }
+            )
+          }
+
+          search()
+    },[participantUsername])
+    console.log(searchResultUser)
   return (
     <>
         <div onClick={() => setshowForm(true)} className='bg-gray-100 hover:bg-gray-200 dark:bg-gray-300 shadow-lg h-fit rounded-xl p-1 m-5 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-100'>
@@ -41,6 +60,14 @@ export default function({projectRef}) {
             <div className='fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 border-[1.5px] border-gray-400 bg-gray-200 dark:border-white p-10 rounded-xl'>
                 <form className='flex flex-row' onSubmit={submitHandler}>
                     <input onChange={e => setparticipantUsername(e.target.value)} className='border-[1.5px] dark:text-black' placeholder='add participants'/>
+                    {searchResultUser && (
+                        <a target="_blank" href={`/profile/${searchResultUser.uid}`} className='fixed text-black mt-7 border-[1.5px] border-black rounded'>
+                            <div className='flex flex-row'>
+                                <img width="36px" height="36px" src={`${searchResultUser.profilePic}`} />
+                                <span>{searchResultUser.username}</span>
+                            </div>
+                        </a>
+                    )}
                     <button className='bg-blue-300 mx-2'>Add</button>
                     <button onClick={() => setshowForm(false)} className='bg-red-300 mx-2'>Close</button>
                 </form>

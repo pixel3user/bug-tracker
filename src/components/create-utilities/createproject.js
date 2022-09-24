@@ -11,7 +11,7 @@ export default function CreateProject() {
     const descriptionRef = useRef()
     const repoRef = useRef()
     const navigate = useNavigate()
-    const { currentuser } = useAuth()
+    const { currentuser, username } = useAuth()
 
     async function createProject(e){                                                      // create project form onsubmit function
         e.preventDefault()
@@ -19,9 +19,10 @@ export default function CreateProject() {
         try{
             await setDoc(doc(database.projects,titleRef.current.value,'info','data'),{    // adding info collection to project collection in database
                 name: titleRef.current.value,
+                projectPic: null,
                 description: descriptionRef.current.value,
                 tags: tagsRef.current.value,
-                admin: currentuser.uid,
+                admin: {uid: currentuser.uid, username: username},
                 answers: [],
                 participants: [],
                 repoLink: repoRef.current.value

@@ -1,4 +1,5 @@
 import { arrayUnion, getDocs, query, updateDoc, where } from 'firebase/firestore'
+import { getDownloadURL, uploadBytes } from 'firebase/storage'
 import React, { useEffect, useRef, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { useAuth } from '../../contexts/authContext'
@@ -24,7 +25,7 @@ export default function Project() {                            // this page is m
                     setprojectRef(existingFile.ref)
                     setloading(false)
                     setauthentication(                           // if currentuser is admin of project or is a participant set authentication to true
-                        (existingFile.data().admin == currentuser.uid || existingFile.data().participants.indexOf(currentuser.uid) != -1)
+                        (existingFile.data().admin.uid == currentuser.uid || existingFile.data().participants.indexOf(currentuser.uid) != -1)
                         )
                 }
             })
@@ -60,6 +61,21 @@ export default function Project() {                            // this page is m
         }
     }
 
+    function changeProjectPic(e){                                                          // change profile pic function
+        e.preventDefault()
+        uploadBytes(database.projectPicStorage(e.target.files[0].name),e.target.files[0]).then(snapshot => {         // uploading new profile pic
+            getDownloadURL(database.projectPicStorage(e.target.files[0].name)).then(async (url) => {    // get new profile pic download url
+                try{
+                    await updateDoc(projectRef,{                       // update user document with profilepic url
+                        projectPic: url
+                    })
+                }catch(error){
+                    console.log(error)
+                }
+            })
+        })
+    }
+
 
   return (
     <>
@@ -69,11 +85,20 @@ export default function Project() {                            // this page is m
                     <div className='flex flex-col bg-gray-50 border rounded dark:bg-black'>
                         <div className='m-5'>
                             <div className='overflow-hidden h-[320px]'>
-                                <img src='/images/background.jpg' />
+                                {
+                                projectData.projectPic ? (
+                                    <img src={`${projectData.projectPic}`} />
+                                ): (
+                                    <label className='hover:cursor-pointer bg-white h-full flex items-center justify-center bg-gray-100 items-center dark:bg-gray-400'>
+                                        <svg xmlns="http://www.w3.org/2000/svg" height="48" width="48"><path d="M38.65 15.3V11h-4.3V8h4.3V3.65h3V8H46v3h-4.35v4.3ZM4.7 44q-1.2 0-2.1-.9-.9-.9-.9-2.1V15.35q0-1.15.9-2.075.9-.925 2.1-.925h7.35L15.7 8h14v3H17.1l-3.65 4.35H4.7V41h34V20h3v21q0 1.2-.925 2.1-.925.9-2.075.9Zm17-7.3q3.6 0 6.05-2.45 2.45-2.45 2.45-6.1 0-3.6-2.45-6.025Q25.3 19.7 21.7 19.7q-3.65 0-6.075 2.425Q13.2 24.55 13.2 28.15q0 3.65 2.425 6.1Q18.05 36.7 21.7 36.7Zm0-3q-2.4 0-3.95-1.575-1.55-1.575-1.55-3.975 0-2.35 1.55-3.9 1.55-1.55 3.95-1.55 2.35 0 3.925 1.55 1.575 1.55 1.575 3.9 0 2.4-1.575 3.975Q24.05 33.7 21.7 33.7Zm0-5.5Z"/></svg>
+                                        <input onChange={changeProjectPic} type="file" className="hidden" />
+                                    </label>
+                                )
+                                }
                             </div>
                             <span to={`/${projectData.name}`}>{projectData.name}</span>
                             <h2>Description: {projectData.description}</h2>
-                            <h2>Admin: {projectData.admin}</h2>
+                            <h2>Admin: {projectData.admin.username}</h2>
                             <h3>Tags: {projectData.tags}</h3>
                         </div>
 
@@ -96,7 +121,7 @@ export default function Project() {                            // this page is m
                     </div>
                     <div className='flex flex-row bg-gray-50 mx-auto mt-3 border rounded dark:bg-black'>
 
-                        {projectData.admin == currentuser.uid &&
+                        {projectData.admin.uid == currentuser.uid &&
                             <AddParticipants projectRef={projectRef}/>
                             }
 
@@ -127,7 +152,7 @@ export default function Project() {                            // this page is m
                         )}
 
                                                                                     {/* edit project deatils button if you are an admin */}
-                        {projectData.admin == currentuser.uid && (
+                        {projectData.admin.uid == currentuser.uid && (
                             <Link to={`/${id}/edit`} className='bg-gray-100 hover:bg-gray-200 dark:bg-gray-300 shadow-lg h-fit rounded-xl p-1 m-5 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-100'>
                                 <svg className='mx-auto' xmlns="http://www.w3.org/2000/svg" height="48" width="48"><path d="M9 39h2.2l22.15-22.15-2.2-2.2L9 36.8Zm30.7-24.3-6.4-6.4 2.1-2.1q.85-.85 2.1-.85t2.1.85l2.2 2.2q.85.85.85 2.1t-.85 2.1Zm-2.1 2.1L12.4 42H6v-6.4l25.2-25.2Zm-5.35-1.05-1.1-1.1 2.2 2.2Z"/></svg>
                                 <span className='mx-auto text-sm dark:text-black'>Edit project</span>

@@ -1,6 +1,7 @@
 import { GithubAuthProvider, signInWithPopup, signOut } from "firebase/auth"
+import { getDoc } from "firebase/firestore"
 import React, { useContext, useEffect, useState } from "react"
-import { auth } from "../firebase"
+import { auth, database } from "../firebase"
 
 const AuthContext = React.createContext()
 
@@ -13,6 +14,7 @@ const provider = new GithubAuthProvider()
 export function AuthProvider({children}){
     const [currentuser, setcurrentuser] =  useState()
     const [loading, setloading] = useState(true)
+    const [username, setusername] = useState()
 
     function login(){
         return signInWithPopup(auth, provider).then((result) => {
@@ -38,6 +40,17 @@ export function AuthProvider({children}){
             setcurrentuser(user)
             setloading(false)
         })
+
+        async function fetchUsername(){
+            if(currentuser != undefined){
+                const ref = database.user(currentuser.uid)
+                const docSnap = await getDoc(ref)
+                if(docSnap.data().username){
+                    setusername(docSnap.data().username)
+                }
+            }
+        }
+        fetchUsername()
         return unsubscribe
     })
 
@@ -45,6 +58,8 @@ export function AuthProvider({children}){
         currentuser,
         login,
         logout,
+        username,
+        setusername
     }
 
     return (

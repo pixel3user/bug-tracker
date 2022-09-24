@@ -10,7 +10,7 @@ export default function CreateAccount() {
     const navigate = useNavigate() 
     const usernameRef = useRef()
     const [formvisibility,setformvisibility] = useState(false)
-    const { currentuser } = useAuth()
+    const { currentuser, setusername } = useAuth()
 
     async function addNewUser(e){                                     // firebase custom function to add new user to database
         e.preventDefault()
@@ -26,6 +26,7 @@ export default function CreateAccount() {
             uid: currentuser.uid,
             requests: []
           })
+          setusername(usernameRef.current.value)
         }catch(error){
           console.log(error)
         }
@@ -41,6 +42,7 @@ export default function CreateAccount() {
             if(!docSnap.data().username){
               setformvisibility(true)
             }else{
+              setusername(docSnap.data().username)
               navigate('/home')
             }
           }else{

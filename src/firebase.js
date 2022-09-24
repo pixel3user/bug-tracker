@@ -25,6 +25,7 @@ export const database = {
     users: collection(db,"users"),
     user: (document) => doc(db,"users",document),
     profilePicStorage: (document) => ref(storage,`profilePics/${document}`),
+    projectPicStorage: (document) => ref(storage,`projectPics/${document}`),
     projects: collection(db,'projects'),
     projectsGroup: (document) => collectionGroup(db,document),
     getCurrentTimeStamp: serverTimestamp,
