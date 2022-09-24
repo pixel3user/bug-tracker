@@ -39,10 +39,10 @@ export default function UpdateProfile() {
         })
     }
 
+
   return (
     <>
-        <NavBar />
-        <div className='flex flex-col m-3 items-center'>
+        <div className='flex flex-col m-3 items-center h-screen'>
             <h1 className='my-3 text-xl font-bold'>Update your Profile</h1>
             <form className='flex flex-col border p-3 rounded'>
                 <label>

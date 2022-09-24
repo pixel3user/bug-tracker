@@ -18,12 +18,13 @@ export default function Login() {
       }
 
 
+
   return (
 
                                                                 // login form
 
 
-    <div className="flex flex-col items-center justify-center sm:h-screen">               
+    <div className="flex flex-col items-center justify-center sm:h-screen bg-dashboard-image">               
       <div className='flex flex-col mx-auto sm:border-[1px] sm:px-32 py-12 sm:rounded-xl sm:border-gray-300'>
         <form className='flex flex-col' onSubmit={submitloginhandler}>
             <img src='https://firebasestorage.googleapis.com/v0/b/test-project-42b86.appspot.com/o/logo.webp?alt=media&token=6509fcd6-c2b3-4324-9db5-927d3e8f9a39' className='object-scale-down h-12' />

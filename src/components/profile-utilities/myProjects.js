@@ -12,7 +12,6 @@ export default function MyProjects() {                                          
     const [projectsData,setprojectsData] = useState([])
 
     useEffect(() => {                                                               // fetch all project
-
         async function fetchProjects(){
             let myProjectDataArray = []
             let projectDataArray = []
@@ -38,25 +37,8 @@ export default function MyProjects() {                                          
 
   return (
     <>
-        <NavBar />
-        
 
-        <aside className='w-1/5 fixed mt-16 left-0 top-0 h-screen border-r-[1.5px]'>          {/* left side bar */}
-            <div className='float-right flex flex-col mt-5'>
-              <Link to={'/home'} className='flex flex-row mb-2'>
-                <h1 className='mr-20 p-2 text-md'>Home</h1>
-              </Link>
-              <Link to={'/my-projects'} className='flex flex-row bg-gray-200 rounded-l-lg mb-2 border-r-[3px] border-green-500'>
-                <h1 className='mr-20 p-2 text-md'>My Project</h1>
-              </Link>
-              <Link to={'/create-project'} className='flex flex-row mb-2'>
-                <h1 className='mr-20 p-2 text-md'>Create Project</h1>
-              </Link>
-            </div>
-            <div></div>
-          </aside>
-
-            <div className='flex flex-row float-right w-4/5 mt-16'>                                 {/* all projects div tag */}
+            <div className='flex flex-row float-right'>                                 {/* all projects div tag */}
 
                 <div className='flex w-full p-2'>
 
@@ -64,7 +46,7 @@ export default function MyProjects() {                                          
                     <div className='flex flex-col w-1/2'>                                           {/* my projects div tag */}
                         <span>My Projects</span>
                         {/* {!projectsExists && <span>No projects</span>} */}
-                        {myProjectsData && <div>{myProjectsData.map(doc => <div className='flex flex-row bg-gray-50 border rounded mt-2 mr-16' key={doc.name}>
+                        {myProjectsData && <div>{myProjectsData.map(doc => <div className='flex flex-row bg-gray-50 border rounded mt-2 mr-16 dark:border-gray-500 dark:bg-black' key={doc.name}>
                             <div className='flex flex-col'>
                                 <Link to={`/${doc.name}`} className='px-3 mt-3'>Project Name: {doc.name}</Link>
                                 <h2 className='px-3 mt-3'>Admin: {doc.admin}</h2>
@@ -77,7 +59,7 @@ export default function MyProjects() {                                          
                     <div className='flex flex-col w-1/2'>                                          {/* rest projects div tag */}
                         <span>Projects</span>
                         {/* {!projectsExists && <span>No projects</span>} */}
-                        {projectsData && <div>{projectsData.map(doc => <div className='flex flex-row bg-gray-50 border rounded mt-2 mr-16' key={doc.name}>
+                        {projectsData && <div>{projectsData.map(doc => <div className='flex flex-row bg-gray-50 border rounded mt-2 mr-16 dark:border-gray-500 dark:bg-black' key={doc.name}>
                             <div className='flex flex-col'>
                                 <Link to={`/${doc.name}`} className='px-3 mt-3'>Project Name: {doc.name}</Link>
                                 <h2 className='px-3 mt-3'>Admin: {doc.admin}</h2>

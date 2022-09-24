@@ -32,24 +32,8 @@ export default function Profile() {
 
   return (
     <>
-        <NavBar />
-
-        <aside className='w-1/5 fixed mt-16 left-0 top-0 h-screen border-r-[1.5px]'>
-            <div className='float-right flex flex-col mt-5'>
-              <Link to={'/home'} className='flex flex-row mb-2'>
-                <h1 className='mr-20 p-2 text-md'>Home</h1>
-              </Link>
-              <Link to={'/my-projects'} className='flex flex-row mb-2'>
-                <h1 className='mr-20 p-2 text-md'>My Project</h1>
-              </Link>
-              <Link to={'/create-project'} className='flex flex-row mb-2'>
-                <h1 className='mr-20 p-2 text-md'>Create Project</h1>
-              </Link>
-            </div>
-            <div></div>
-          </aside>
           
-        <div className='flex flex-col p-3 float-right w-4/5 mt-16'>
+        <div className='flex flex-col p-3 float-right'>
             <div className='flex flex-row border p-2 rounded'>
                 <span>{error}</span>
                 {!loading && <img src={profileData.profilePic} className='w-24 h-24 m-3 object-contain' />}

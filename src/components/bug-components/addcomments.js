@@ -23,7 +23,7 @@ export default function AddComments({reference}){ // reference = document refere
   return (
     // add comment form 
     <form className='flex flex-row' onSubmit={addComment}>
-        <input onChange={e => setcommentBody(e.target.value)} className='border-[1.5px]'/>
+        <input onChange={e => setcommentBody(e.target.value)} className='border-[1.5px] dark:text-black dark:bg-gray-400'/>
         <button className='bg-blue-300'>Add Comment</button>
     </form>
   )

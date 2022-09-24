@@ -21,7 +21,7 @@ export default function Answers({reference}) { // reference = document reference
   return (
     // add answer form 
     <form className='flex flex-col' onSubmit={addAnswer}>
-        <input onChange={e => setanswer(e.target.value)} className='border-[1.5px]'/>
+        <input onChange={e => setanswer(e.target.value)} className='border-[1.5px] dark:text-black dark:bg-gray-400'/>
         <button className='bg-blue-300'>Create</button>
     </form>
   )

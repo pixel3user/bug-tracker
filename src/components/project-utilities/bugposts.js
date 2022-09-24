@@ -13,7 +13,6 @@ export default function BugPosts() {
     const {currentuser} = useAuth()
 
     useEffect(() => {                                                                   // fetch bug posts
-        
         async function fetchBugPosts(){
             const q = query(collection(database.projects,id,'data'),orderBy('votes','desc'))  // bug posts ordeby votes in decending order
             await getDocs(q)
@@ -34,24 +33,7 @@ export default function BugPosts() {
     
 return (
     <>
-        <NavBar />
 
-        <aside className='w-1/5 fixed mt-16 left-0 top-0 h-screen border-r-[1.5px]'>
-            <div className='float-right flex flex-col mt-5'>
-              <Link to={'/home'} className='flex flex-row mb-2'>
-                <h1 className='mr-20 p-2 text-md'>Home</h1>
-              </Link>
-              <Link to={'/my-projects'} className='flex flex-row mb-2'>
-                <h1 className='mr-20 p-2 text-md'>My Project</h1>
-              </Link>
-              <Link to={'/create-project'} className='flex flex-row mb-2'>
-                <h1 className='mr-20 p-2 text-md'>Create Project</h1>
-              </Link>
-            </div>
-            <div></div>
-          </aside>
-
-        <div className='float-right w-4/5 mt-16'>
             <div className='flex flex-col'>
             
             {/* All Bug posts div tag */}
@@ -65,14 +47,13 @@ return (
                             <h1 className='mx-6'>Votes: {bug.data.votes.length}</h1>
                             {/* <button onClick={e => upvote(bug.ref)} className='mx-5'>upvote</button> */}
                         </div>
-                        <pre className='px-8 py-1 max-h-48 overflow-hidden text-lg bg-gray-100'>{bug.data.body}</pre>
+                        {/* <pre className='px-8 py-1 max-h-48 overflow-hidden text-lg bg-gray-100 dark:bg-gray-700'>{bug.data.body}</pre> */}
                         <h3 className='px-8 py-1 text-sm text-gray-500'>tags: {bug.data.tags}</h3>
                     </Link>
                 ))}
             </div>
         </div>
 
-    </div>
     </>
   )
 }
