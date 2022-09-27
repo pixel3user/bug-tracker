@@ -2,7 +2,6 @@ import { addDoc, collection } from 'firebase/firestore'
 import React, { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { database } from '../../firebase'
-import NavBar from '../navbar'
 
 export default function CreateBugPost() {
     const [title,settitle] = useState()
@@ -28,9 +27,11 @@ export default function CreateBugPost() {
             console.log(error)
         }
     }
-  
 
-
+    function previewPost(){
+      console.log(body)
+      return <div>{typeof(body)}</div>
+    }
 
   return (
     <>
@@ -40,9 +41,10 @@ export default function CreateBugPost() {
                 <input className='p-1 m-3 border-[1.5px] border-gray-400 rounded dark:bg-gray-700' placeholder='Title' onChange={e => settitle(e.target.value)}/>
                 <div className='flex flex-col m-3 h-48 border-[1.5px] border-gray-400 rounded'>
 
-                  <textarea ref={selectedTextRef} className='p-1 h-full dark:bg-gray-700' placeholder='Body' onChange={e => setbody(e.target.value)}/>
+                  <textarea ref={selectedTextRef} className='p-1 h-full dark:bg-gray-700' placeholder='Body' onChange={e => setbody(e.target.value)} />
                 </div>
                 <input className='p-1 m-3 border-[1.5px] border-gray-400 rounded dark:bg-gray-700' placeholder='Tags' onChange={e => settags(e.target.value)}/>
+                {/* {previewPost()} */}
                 <button className='text-white m-3 font-medium mt-7 px-4 py-1 w-fit border outline-none rounded bg-blue-500 hover:bg-blue-600 hover:shadow-sm hover:shadow-blue-600'>Create</button>
             </form>
     </>

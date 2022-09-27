@@ -91,7 +91,7 @@ export default function NavBar() {                          // i really never ha
                                             <div className='flex flex-col'>
                                                 User
                                                 <Link to={`/profile/${searchResultUser.uid}`} className='flex flex-row h-full w-full'>
-                                                    <img src={searchResultUser.profilePic} width='36px' height='36px' />
+                                                    <img src={searchResultUser.photoURL} width='36px' height='36px' />
                                                     <h1>{searchResultUser.username}</h1>
                                                 </Link>
                                             </div>

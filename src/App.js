@@ -19,11 +19,15 @@ import BugPost from './components/project-utilities/bugpost';
 import NavBar from './components/navbar';
 import { useState } from 'react';
 import LeftNavBar from './components/leftnavbar';
+import { ChatContextProvider } from './contexts/chatContext';
+import SideBar from './components/chatComponent/sideBar';
+import Chat from './components/chatComponent/chat';
 
 function App() {
 
   const [hideLeftBar,sethideLeftBar] = useState(true)
   const [page,setpage] = useState("")
+  const [showChat,setshowChat] = useState(true)
 
   function Element({page}){
     switch(page){
@@ -130,11 +134,29 @@ function App() {
             </Routes>
             </div>
 
-            {!hideLeftBar && (
-              <div className='hidden lg:block top-12 w-[10rem] p-2 fixed bottom-0 right-[max(0px,calc(50%-45rem))] hover:w-1/2 h-screen bg-white border-l-[1px] dark:border-gray-400 dark:bg-black dark:text-white'>
-                Messages
-              </div>
-            )}
+            <ChatContextProvider>
+              {!hideLeftBar && (
+                <div className={`hidden lg:block top-12 ${showChat ? "w-1/2" : "w-[10rem]"} p-2 fixed bottom-0 right-[max(0px,calc(50%-45rem))] h-screen bg-white border-l-[1px] dark:border-gray-400 dark:bg-black dark:text-white`}>
+                  <div className='flex flex-row border-b-[1px]'>
+                    <button onClick={() => setshowChat(!showChat)} className='dark:fill-white'>
+                      {!showChat ?   <svg xmlns="http://www.w3.org/2000/svg" height="48" width="48">
+                                      <path d="m24 31.3 2.1-2.1-3.7-3.7h9.1v-3h-9.1l3.7-3.7-2.1-2.1-7.3 7.3ZM24 44q-4.1 0-7.75-1.575-3.65-1.575-6.375-4.3-2.725-2.725-4.3-6.375Q4 28.1 4 24q0-4.15 1.575-7.8 1.575-3.65 4.3-6.35 2.725-2.7 6.375-4.275Q19.9 4 24 4q4.15 0 7.8 1.575 3.65 1.575 6.35 4.275 2.7 2.7 4.275 6.35Q44 19.85 44 24q0 4.1-1.575 7.75-1.575 3.65-4.275 6.375t-6.35 4.3Q28.15 44 24 44Zm0-3q7.1 0 12.05-4.975Q41 31.05 41 24q0-7.1-4.95-12.05Q31.1 7 24 7q-7.05 0-12.025 4.95Q7 16.9 7 24q0 7.05 4.975 12.025Q16.95 41 24 41Zm0-17Z"/>
+                                    </svg> 
+                                  :
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="48" width="48">
+                                      <path d="m24 31.3 7.3-7.3-7.3-7.3-2.1 2.1 3.7 3.7h-9.1v3h9.1l-3.7 3.7ZM24 44q-4.1 0-7.75-1.575-3.65-1.575-6.375-4.3-2.725-2.725-4.3-6.375Q4 28.1 4 24q0-4.15 1.575-7.8 1.575-3.65 4.3-6.35 2.725-2.7 6.375-4.275Q19.9 4 24 4q4.15 0 7.8 1.575 3.65 1.575 6.35 4.275 2.7 2.7 4.275 6.35Q44 19.85 44 24q0 4.1-1.575 7.75-1.575 3.65-4.275 6.375t-6.35 4.3Q28.15 44 24 44Zm0-3q7.1 0 12.05-4.975Q41 31.05 41 24q0-7.1-4.95-12.05Q31.1 7 24 7q-7.05 0-12.025 4.95Q7 16.9 7 24q0 7.05 4.975 12.025Q16.95 41 24 41Zm0-17Z"/>
+                                    </svg>
+                                  }
+                    </button>
+                    <span className='flex justify-center items-center'>Messages</span>
+                  </div>
+                  <div className='flex flex-row'>
+                    <SideBar showChat={showChat}/>
+                    <Chat showChat={showChat}/>
+                  </div>
+                </div>
+              )}
+            </ChatContextProvider>
           </div>
           </div>
         </div>

@@ -2,7 +2,7 @@ import { getDoc, setDoc} from 'firebase/firestore'
 import React, { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../contexts/authContext'
-import { database } from '../../firebase'
+import { auth, database } from '../../firebase'
 
 // creating username page ,,, adding user to database
 export default function CreateAccount() {
@@ -10,7 +10,7 @@ export default function CreateAccount() {
     const navigate = useNavigate() 
     const usernameRef = useRef()
     const [formvisibility,setformvisibility] = useState(false)
-    const { currentuser, setusername } = useAuth()
+    const { currentuser, setusername,setUsername } = useAuth()
 
     async function addNewUser(e){                                     // firebase custom function to add new user to database
         e.preventDefault()
@@ -20,13 +20,19 @@ export default function CreateAccount() {
             username: usernameRef.current.value,
             uid: currentuser.uid,
             email: currentuser.email,
-            profilePic: currentuser.photoURL
+            photoURL: currentuser.photoURL
           })
           await setDoc(database.public(currentuser.uid),{             // adding user to database in public collection
             uid: currentuser.uid,
             requests: []
           })
+
+          await setDoc(database.userChats(currentuser.uid), {});
+          
           setusername(usernameRef.current.value)
+
+          await setUsername(usernameRef.current.value)
+
         }catch(error){
           console.log(error)
         }

@@ -1,4 +1,4 @@
-import { GithubAuthProvider, signInWithPopup, signOut } from "firebase/auth"
+import { GithubAuthProvider, signInWithPopup, updateProfile, signOut } from "firebase/auth"
 import { getDoc } from "firebase/firestore"
 import React, { useContext, useEffect, useState } from "react"
 import { auth, database } from "../firebase"
@@ -35,6 +35,12 @@ export function AuthProvider({children}){
         return signOut(auth)
     }
 
+    async function setUsername(name){
+        return await updateProfile(auth.currentUser,{
+            displayName: name
+            })
+    }
+
     useEffect( () => {
         const unsubscribe = auth.onAuthStateChanged( user => {
             setcurrentuser(user)
@@ -59,7 +65,8 @@ export function AuthProvider({children}){
         login,
         logout,
         username,
-        setusername
+        setusername,
+        setUsername
     }
 
     return (

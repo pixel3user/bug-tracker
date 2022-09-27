@@ -30,7 +30,9 @@ export const database = {
     projectsGroup: (document) => collectionGroup(db,document),
     getCurrentTimeStamp: serverTimestamp,
     public: (document) => doc(db,'public',document),
-    project: (document) => doc(db,'projects',document,'info','data')
+    project: (document) => doc(db,'projects',document,'info','data'),
+    chats: (combinedId) => doc(db, "chats", combinedId),
+    userChats: (uid) => doc(db, "userChats", uid)
 }
 
 export const storage = getStorage(app)

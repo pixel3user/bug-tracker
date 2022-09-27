@@ -2,7 +2,7 @@ import { getDocs, query, where } from 'firebase/firestore'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../../contexts/authContext'
-import { database } from '../../firebase'
+import { auth, database } from '../../firebase'
 import NavBar from '../navbar'
 
 export default function MyProjects() {                                              // my project page
@@ -36,8 +36,9 @@ export default function MyProjects() {                                          
 
         fetchProjects()
     },[username])
+    console.log(auth)
 
-  return (
+    return (
     <>
 
             <div className='flex flex-row float-right'>                                 {/* all projects div tag */}
