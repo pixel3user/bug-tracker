@@ -30,7 +30,7 @@ export default function Message({message}) {
         </div>
         <div className="mr-1 rounded-lg bg-blue-200 dark:bg-blue-600 px-3 h-fit">
           <p>{message.text}</p>
-          {message.img && <img src={message.img} alt="" />}
+          {message.img && <a target="_blank" href={`${message.img}`}><img width={"128px"} height={"72px"} src={message.img} alt="" /></a>}
         </div>
       </div>
     );

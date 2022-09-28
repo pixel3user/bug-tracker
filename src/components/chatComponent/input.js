@@ -76,25 +76,35 @@ export default function Input() {
     }
     
     return (
-      <div className="flex flex-row mx-2 justify-center items-center">
-        <input
-          type="text"
-          placeholder="Type something..."
-          className='rounded-xl px-2 border-[1.5px] dark:text-black'
-          onChange={(e) => setText(e.target.value)}
-          value={text}
-        />
-        <div className="flex flex-row">
+      <div className='flex flex-col'>
+        {img && (
+          <div className='flex flex-row'>
+            <span className='w-48 block text-ellipsis whitespace-nowrap overflow-hidden'>{img.name}</span>
+            <button onClick={() => setImg(null)}>
+            <img width={"16px"} height={"16px"} src='/images/cancel.png' />
+            </button>
+          </div>
+        )}
+        <div className="flex flex-row mx-2 justify-center items-center">
           <input
-            type="file"
-            style={{ display: "none" }}
-            id="file"
-            onChange={(e) => setImg(e.target.files[0])}
+            type="text"
+            placeholder="Type something..."
+            className='rounded-xl px-2 border-[1.5px] dark:text-black'
+            onChange={(e) => setText(e.target.value)}
+            value={text}
           />
-          <label htmlFor="file" className='mx-2 hover:cursor-pointer'>
-            {/* <img src="/images/img.png" alt="" /> */}
-          </label>
-          <button onClick={handleSend} className='rounded-xl border-[1.5px] bg-green-300 py-1 px-2 hover:bg-green-400 dark:bg-green-400 dark:hover:bg-green-500'>Send</button>
+          <div className="flex flex-row">
+            <input
+              type="file"
+              style={{ display: "none" }}
+              id="file"
+              onChange={(e) => setImg(e.target.files[0])}
+            />
+            <label htmlFor="file" className='mx-2 hover:cursor-pointer'>
+              <img src="/images/img.png" alt="" />
+            </label>
+            <button onClick={handleSend} className='rounded-xl border-[1.5px] bg-green-300 py-1 px-2 hover:bg-green-400 dark:bg-green-400 dark:hover:bg-green-500'>Send</button>
+          </div>
         </div>
       </div>
     );

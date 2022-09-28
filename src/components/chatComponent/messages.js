@@ -21,7 +21,7 @@ export default function Messages() {
     console.log(messages)
   
     return (
-      <div className="h-3/4 overflow-auto">
+      <div className="h-4/6 overflow-auto">
         {messages.map((m) => (
           <Message message={m} key={m.id} />
         ))}

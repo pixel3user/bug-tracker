@@ -2,7 +2,7 @@ import { getDoc, setDoc} from 'firebase/firestore'
 import React, { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../contexts/authContext'
-import { auth, database } from '../../firebase'
+import { database } from '../../firebase'
 
 // creating username page ,,, adding user to database
 export default function CreateAccount() {
