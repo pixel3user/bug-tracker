@@ -88,9 +88,9 @@ export default function NavBar({showChat,setshowChat}) {                        
                                 <input onClick={searchState} onChange={e => setsearchValue(e.target.value)} placeholder='Search...' className='w-full hidden lg:block bg-white px-1.5 py-0.5 border border-borderBlack text-gray-900 text-lg rounded focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'  />
                             </div>
 
-                            <div className={`fixed ${searchBar} flex flex-row items-start mx-9 mt-1 w-1/3 bg-gray-100 dark:bg-gray-800 shadow-xl border-[1.5px] p-2 rounded-lg`}>
+                            <div className={`fixed ${searchBar} flex flex-row bg-white dark:bg-black items-start mx-9 mt-1 w-1/3 shadow-xl border-[1px] border-borderBlack dark:border-white p-2 rounded-lg`}>
                                 {!searchValue && (
-                                    <div className='w-1/2 flex flex-col dark:bg-black'>
+                                    <div className='w-1/2 flex flex-col'>
                                         <span className='flex flex-row'>user:1234<h1 className='text-sm'>search by user</h1></span>
                                         <span className='flex flex-row'>[tags]<h1 className='text-sm'>search any tag</h1></span>
                                         <span className='flex flex-row'>"words exact"<h1 className='text-sm'>any posts</h1></span>

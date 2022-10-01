@@ -1,6 +1,6 @@
 import './App.css';
 import { BrowserRouter as Router, Routes, Route ,Link } from 'react-router-dom'
-import { AuthProvider, useAuth } from './contexts/authContext';
+import { AuthProvider } from './contexts/authContext';
 import Dashboard from './components/login-utilities/dashboard';
 import Login from './components/login-utilities/auth/login';
 import Home from './components/profile-utilities/home';
@@ -22,6 +22,7 @@ import LeftNavBar from './components/leftnavbar';
 import { ChatContextProvider } from './contexts/chatContext';
 import SideBar from './components/chatComponent/sideBar';
 import Chat from './components/chatComponent/chat';
+import Todo from './components/profile-utilities/todo';
 
 function App() {
 
@@ -134,11 +135,7 @@ function App() {
             </Routes>
             </div>
             {!hideLeftBar && (
-              <div className='flex flex-col float-right w-2/6 mt-20 w-96 h-[36rem] bg-todoListColor border-[1px] border-todoListBorder overflow-y-scroll'>
-                <div className='py-2 px-4'>
-                  <span className='font-bold text-sm border-b-[1px]'>TODO LIST</span>
-                </div>
-              </div>
+              <Todo />
             )}
 
             <ChatContextProvider>

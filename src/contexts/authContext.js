@@ -34,21 +34,21 @@ export function AuthProvider({children}){
         return signOut(auth)
     }
 
-    async function setCurrentUser(name=null,photourl=null){
+    async function setCurrentUser(name=null,photourl=null){ // update and make a new object section
         if(name != null && photourl == null){
             return await updateProfile(auth.currentUser,{
-                displayName: name
+                displayName: name,
                 })
             }
         else if(name== null && photourl != null){
             return await updateProfile(auth.currentUser,{
-                photoURL: photourl
+                photoURL: photourl,
             })
         }
         else{
             return await updateProfile(auth.currentUser,{
                 displayName: name,
-                photoURL: photourl
+                photoURL: photourl,
             })
         }
     }
@@ -64,12 +64,12 @@ export function AuthProvider({children}){
             const docSnap = await getDoc(ref)                           // checking if existing user database exists in users collection
             if(docSnap.exists()){
               if(docSnap.data().username && docSnap.data().photoURL){
-                await setCurrentUser(docSnap.data().username,docSnap.data().photoURL)
+                await setCurrentUser(docSnap.data().username,docSnap.data().photoURL) // pass TODO here
               }
             }
           }
   
-        currentuser && fetch()
+        !currentuser && fetch()
 
         return unsubscribe
     })

@@ -20,7 +20,8 @@ export default function CreateAccount() {
             username: usernameRef.current.value,
             uid: currentuser.uid,
             email: currentuser.email,
-            photoURL: currentuser.photoURL
+            photoURL: currentuser.photoURL,
+            todo: []
           })
           await setDoc(database.public(currentuser.uid),{             // adding user to database in public collection
             uid: currentuser.uid,
