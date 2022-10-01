@@ -7,7 +7,7 @@ import { database } from '../firebase'
 export default function NavBar({showChat,setshowChat}) {                          // i really never have to change this shitty navbar so , lets just save time here. bye
 
     const [menuItems, setmenuItems] = useState('hidden')
-    const { currentuser, logout } = useAuth()
+    const { currentuser, logout,data } = useAuth()
     const [searchValue,setsearchValue] = useState('')
     const [searchBar,setsearchBar] = useState('hidden')
     const [searchResultUser, setsearchResultUser] = useState([])
@@ -122,12 +122,12 @@ export default function NavBar({showChat,setshowChat}) {                        
                             </div>
                         </div>
                     </div>
-                    <li className='cursor-pointer hover:text-blue-500'>
+                    <li className='cursor-pointer hover:text-blue'>
                         {!currentuser && <Link to={'/login'}>Log in</Link> }
                     </li>
                     <li className='cursor-pointer hidden lg:block'>
                         {currentuser && <Link className='mx-auto' to={'/profile'}>
-                            <img className='w-8 h-8 rounded-lg object-cover' src={`${currentuser.photoURL}`} />
+                            <img className='w-8 h-8 rounded-lg object-cover' src={`${data.picURL}`} />
                         </Link> }
                     </li>
                     <li className='cursor-pointer hidden lg:block'>

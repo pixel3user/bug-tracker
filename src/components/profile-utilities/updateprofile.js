@@ -7,20 +7,7 @@ import { database } from '../../firebase'
 export default function UpdateProfile() {
     const usernameRef = useRef()
     const [file, setfile] = useState(null)
-    const { currentuser,setCurrentUser } = useAuth()
-
-    async function changeUsername(e){                                                       // change username function
-        e.preventDefault()
-        
-        try{
-            await updateDoc(database.user(currentuser.uid),{                               // update info collection doc
-                username: usernameRef.current.value
-            })
-            await setCurrentUser({name:usernameRef.current.value})
-        }catch(error){
-            console.log(error)
-        }
-    }
+    const { currentuser,data,setdata } = useAuth()
 
     function changeProfilePic(e){                                                          // change profile pic function
         e.preventDefault()
@@ -31,7 +18,7 @@ export default function UpdateProfile() {
                     await updateDoc(database.user(currentuser.uid),{                       // update user document with profilepic url
                         photoURL: url
                     })
-                    await setCurrentUser({photourl:url})
+                    setdata({picURL: url, username: data.username})
                 }catch(error){
                     console.log(error)
                 }

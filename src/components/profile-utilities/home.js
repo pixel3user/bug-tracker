@@ -19,7 +19,6 @@ export default function Home() {
     fetchPublicData()
 
   },[])
-  console.log(currentuser)
   async function grantAccess(doc){                                            // accepting requests
     try{
       await updateDoc(database.project(doc.project),{                         // update participants of projects

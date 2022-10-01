@@ -9,7 +9,6 @@ export default function BugPosts() {
     const [bugpostsdata,setbugpostsdata] = useState([])
     const [loading,setloading] = useState(true)
     const { id } = useParams()
-    const {currentuser} = useAuth()
 
     useEffect(() => {                                                                   // fetch bug posts
         async function fetchBugPosts(){
@@ -27,9 +26,6 @@ export default function BugPosts() {
         fetchBugPosts()
 
     },[])
-
-    var currentTime = new Date()
-    console.log(currentTime)
     
 return (
     <>
@@ -65,7 +61,7 @@ return (
                                             <span>Tags:</span>
                                             <span className='bg-navBar border border-borderBlack rounded-md px-2 w-fit'>{bug.data.tags}</span>
                                         </label>
-                                        <span className='items-end'>{bug.data.creationTime.toDate().toDateString()}</span>
+                                        {bug.data.creationTime && <span className='items-end'>{bug.data.creationTime.toDate().toDateString()}</span>}
                                     </div>
                                 </div>
                                 {/* <h1 className='text-3xl'>{bug.data.title}</h1>

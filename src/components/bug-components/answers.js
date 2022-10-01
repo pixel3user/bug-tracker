@@ -7,7 +7,7 @@ import TextAreaBody from '../textEditor'
 export default function Answers({reference}) { // reference = document reference for the bug post
 
     const [answer, setanswer] = useState()
-    const {currentuser} = useAuth()
+    const {currentuser,data} = useAuth()
 
     // firebase custom function to update answers array in database(adding answer)
     async function addAnswer(e){
@@ -17,7 +17,7 @@ export default function Answers({reference}) { // reference = document reference
             await updateDoc(reference,{
                 answers: arrayUnion(
                     {   answer:localStorage.getItem('content'),
-                        user: { uid: currentuser.uid , username: currentuser.displayName},
+                        user: { uid: currentuser.uid , username: data.username},
                         votes: [],
                         // creationTime: database.getCurrentTimeStamp()
                     }) // adding new answer #work needed right here ... make an object with uid

@@ -7,7 +7,7 @@ import NavBar from '../navbar'
 
 export default function MyProjects() {                                              // my project page
     
-    const { currentuser } = useAuth()
+    const { currentuser ,data} = useAuth()
     const [myProjectsData,setmyProjectsData] = useState([])
     const [projectsData,setprojectsData] = useState([])
 
@@ -15,9 +15,9 @@ export default function MyProjects() {                                          
         async function fetchProjects(){
             let myProjectDataArray = []
             let projectDataArray = []
-            if(currentuser.displayName != undefined){
-                const myProjectsQuery = query(database.projectsGroup('info'),where('admin','==',{uid:currentuser.uid,username:currentuser.displayName}))
-                const projectsQuery = query(database.projectsGroup('info'),where('participants','array-contains',{uid:currentuser.uid,username:currentuser.displayName}))
+            if(data.username != undefined){
+                const myProjectsQuery = query(database.projectsGroup('info'),where('admin','==',{uid:currentuser.uid,username:data.username}))
+                const projectsQuery = query(database.projectsGroup('info'),where('participants','array-contains',{uid:currentuser.uid,username:data.username}))
                 const myProjectsQuerySnapshot = await getDocs(myProjectsQuery)          // fetch user created project
                 const projectsQuerySnapshot = await getDocs(projectsQuery)              // fetch project user has access to
 
@@ -35,7 +35,7 @@ export default function MyProjects() {                                          
         }
 
         fetchProjects()
-    },[currentuser.displayName])
+    },)
 
     return (
     <>
@@ -52,7 +52,7 @@ export default function MyProjects() {                                          
                             <div className='flex flex-col'>
                                 <Link to={`/${doc.name}`} className='px-3 mt-3'>Project Name: {doc.name}</Link>
                                 <h2 className='px-3 mt-3'>Admin: {doc.admin.username}</h2>
-                                <h3 className='p-3'>Project description: {doc.tags}</h3>
+                                <h3 className='p-3'>Project description: {doc.description}</h3>
                             </div>
                         </Link>)}</div>}
                     </div>

@@ -14,6 +14,7 @@ const provider = new GithubAuthProvider()
 export function AuthProvider({children}){
     const [currentuser, setcurrentuser] =  useState()
     const [loading, setloading] = useState(true)
+    const [data,setdata] = useState()
 
     function login(){
         return signInWithPopup(auth, provider).then((result) => {
@@ -64,12 +65,13 @@ export function AuthProvider({children}){
             const docSnap = await getDoc(ref)                           // checking if existing user database exists in users collection
             if(docSnap.exists()){
               if(docSnap.data().username && docSnap.data().photoURL){
-                await setCurrentUser(docSnap.data().username,docSnap.data().photoURL) // pass TODO here
+                // await setCurrentUser(docSnap.data().username,docSnap.data().photoURL) // pass TODO here
+                setdata({picURL: docSnap.data().photoURL, username: docSnap.data().username})
               }
             }
           }
   
-        !currentuser && fetch()
+        !data && fetch()
 
         return unsubscribe
     })
@@ -78,7 +80,8 @@ export function AuthProvider({children}){
         currentuser,
         login,
         logout,
-        setCurrentUser
+        data,
+        setdata
     }
 
     return (
