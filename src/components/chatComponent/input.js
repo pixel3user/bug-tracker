@@ -101,7 +101,7 @@ export default function Input() {
               onChange={(e) => setImg(e.target.files[0])}
             />
             <label htmlFor="file" className='mx-2 hover:cursor-pointer'>
-              <img src="/images/img.png" alt="" />
+              {/* <img src="/images/img.png" alt="" /> */}
             </label>
             <button onClick={handleSend} className='rounded-xl border-[1.5px] bg-green-300 py-1 px-2 hover:bg-green-400 dark:bg-green-400 dark:hover:bg-green-500'>Send</button>
           </div>

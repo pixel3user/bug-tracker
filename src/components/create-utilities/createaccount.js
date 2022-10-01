@@ -10,7 +10,7 @@ export default function CreateAccount() {
     const navigate = useNavigate() 
     const usernameRef = useRef()
     const [formvisibility,setformvisibility] = useState(false)
-    const { currentuser, setusername,setUsername } = useAuth()
+    const { currentuser,setCurrentUser } = useAuth()
 
     async function addNewUser(e){                                     // firebase custom function to add new user to database
         e.preventDefault()
@@ -29,9 +29,7 @@ export default function CreateAccount() {
 
           await setDoc(database.userChats(currentuser.uid), {});
           
-          setusername(usernameRef.current.value)
-
-          await setUsername(usernameRef.current.value)
+          await setCurrentUser(usernameRef.current.value)
 
         }catch(error){
           console.log(error)
@@ -42,17 +40,23 @@ export default function CreateAccount() {
 
     useEffect( () => {
         async function fetch(){
-          const ref = database.user(currentuser.uid)
-          const docSnap = await getDoc(ref)                           // checking if existing user database exists in users collection
-          if(docSnap.exists()){
-            if(!docSnap.data().username){
-              setformvisibility(true)
-            }else{
-              setusername(docSnap.data().username)
-              navigate('/home')
-            }
-          }else{
+          // const ref = database.user(currentuser.uid)
+          // const docSnap = await getDoc(ref)                           // checking if existing user database exists in users collection
+          // if(docSnap.exists()){
+          //   if(!docSnap.data().username){
+          //     setformvisibility(true)
+          //   }else{
+          //     await setCurrentUser(docSnap.data().username,docSnap.data().photoURL)
+          //     navigate('/home')
+          //   }
+          // }else{
+          //   setformvisibility(true)
+          // }
+          if(!currentuser.displayName){
             setformvisibility(true)
+          }
+          else{
+            navigate('/home')
           }
           
         }

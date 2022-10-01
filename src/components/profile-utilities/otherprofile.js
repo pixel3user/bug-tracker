@@ -1,8 +1,7 @@
 import { getDoc } from 'firebase/firestore'
 import React, { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { database } from '../../firebase'
-import NavBar from '../navbar'
 
 export default function OtherProfile() {                                                  // other user profile page
     const [profileData , setprofileData] = useState()

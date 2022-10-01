@@ -14,7 +14,6 @@ const provider = new GithubAuthProvider()
 export function AuthProvider({children}){
     const [currentuser, setcurrentuser] =  useState()
     const [loading, setloading] = useState(true)
-    const [username, setusername] = useState()
 
     function login(){
         return signInWithPopup(auth, provider).then((result) => {
@@ -35,10 +34,23 @@ export function AuthProvider({children}){
         return signOut(auth)
     }
 
-    async function setUsername(name){
-        return await updateProfile(auth.currentUser,{
-            displayName: name
+    async function setCurrentUser(name=null,photourl=null){
+        if(name != null && photourl == null){
+            return await updateProfile(auth.currentUser,{
+                displayName: name
+                })
+            }
+        else if(name== null && photourl != null){
+            return await updateProfile(auth.currentUser,{
+                photoURL: photourl
             })
+        }
+        else{
+            return await updateProfile(auth.currentUser,{
+                displayName: name,
+                photoURL: photourl
+            })
+        }
     }
 
     useEffect( () => {
@@ -47,16 +59,18 @@ export function AuthProvider({children}){
             setloading(false)
         })
 
-        async function fetchUsername(){
-            if(currentuser != undefined){
-                const ref = database.user(currentuser.uid)
-                const docSnap = await getDoc(ref)
-                if(docSnap.data().username){
-                    setusername(docSnap.data().username)
-                }
+        async function fetch(){
+            const ref = database.user(currentuser.uid)
+            const docSnap = await getDoc(ref)                           // checking if existing user database exists in users collection
+            if(docSnap.exists()){
+              if(docSnap.data().username && docSnap.data().photoURL){
+                await setCurrentUser(docSnap.data().username,docSnap.data().photoURL)
+              }
             }
-        }
-        fetchUsername()
+          }
+  
+        currentuser && fetch()
+
         return unsubscribe
     })
 
@@ -64,9 +78,7 @@ export function AuthProvider({children}){
         currentuser,
         login,
         logout,
-        username,
-        setusername,
-        setUsername
+        setCurrentUser
     }
 
     return (

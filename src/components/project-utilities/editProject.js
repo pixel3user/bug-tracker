@@ -1,9 +1,8 @@
-import { doc, getDocs, query, updateDoc, where } from 'firebase/firestore'
+import { getDocs, query, updateDoc, where } from 'firebase/firestore'
 import React, { useEffect, useState } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useAuth } from '../../contexts/authContext'
 import { database } from '../../firebase'
-import NavBar from '../navbar'
 
 export default function EditProject() {                               // edit your project page
 
@@ -56,12 +55,21 @@ export default function EditProject() {                               // edit yo
     <>
         
         {projectData && (projectData.admin.uid == currentuser.uid ? (               // update project details form
-            <form className='flex flex-col m-10 p-2 border-[1.5px] rounded' onSubmit={updateProject}>
+            <form className='flex flex-col m-10 p-2 border-[1px] border-borderBlack bg-formColor dark:bg-black' onSubmit={updateProject}>
                 <label className='text-xl font-semibold mx-auto'>Edit Project</label>
-                <textarea value={`${description}`} onChange={e => setdescription(e.target.value)} className='p-1 m-3 h-48 border-[1.5px] border-gray-400 rounded dark:bg-gray-700' placeholder='Project Description' />
-                <input value={`${tags}`} onChange={e => settags(e.target.value)} className='p-1 m-3 border-[1.5px] border-gray-400 rounded dark:bg-gray-700' placeholder='Tags' />
-                <input value={`${repoLink}`} onChange={e => setrepoLink(e.target.value)} className='p-1 m-3 border-[1.5px] border-gray-400 rounded dark:bg-gray-700' placeholder='Link to repo' />
-                <button className='text-white m-3 font-medium mt-7 px-4 py-1 w-fit border outline-none rounded bg-blue-500 hover:bg-blue-600 hover:shadow-sm hover:shadow-blue-600'>Update</button>
+                <label className='flex flex-col m-3'>
+                    <span className='text-md font-semibold'>Description</span>
+                    <textarea value={`${description}`} onChange={e => setdescription(e.target.value)} className='p-1 h-48 border-[1px] border-borderBlack rounded dark:text-black' placeholder='Project Description' />
+                </label>
+                <label className='flex flex-col m-3'>
+                    <span className='text-md font-semibold'>Tags</span>
+                    <input value={`${tags}`} onChange={e => settags(e.target.value)} className='p-1 border-[1px] border-borderBlack rounded dark:text-black' placeholder='Tags' />
+                </label>
+                <label className='flex flex-col m-3'>
+                    <span className='text-md font-semibold'>Link to repo</span>
+                    <input value={`${repoLink}`} onChange={e => setrepoLink(e.target.value)} className='p-1 border-[1px] border-borderBlack rounded dark:text-black' placeholder='Link to repo' />
+                </label>
+                <button className='text-white m-3 font-medium mt-7 px-4 py-1 w-fit border outline-none rounded bg-blue hover:bg-darkBlue hover:shadow-sm hover:shadow-blue-600'>Update</button>
             </form>
         ) : (
             <div className='float-right w-4/5 mt-16'>

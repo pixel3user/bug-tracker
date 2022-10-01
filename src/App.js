@@ -27,7 +27,7 @@ function App() {
 
   const [hideLeftBar,sethideLeftBar] = useState(true)
   const [page,setpage] = useState("")
-  const [showChat,setshowChat] = useState(true)
+  const [showChat,setshowChat] = useState(false)
 
   function Element({page}){
     switch(page){
@@ -90,7 +90,7 @@ function App() {
     <AuthProvider>
       <Router>
 
-        <NavBar />
+        <NavBar showChat={showChat} setshowChat={setshowChat} />
 
         <div className='w-full'>
           <div className='max-w-8xl mx-auto'>
@@ -99,8 +99,8 @@ function App() {
             <LeftNavBar page={page}/>
           )}
 
-          <div className={`${hideLeftBar ? "max-w-full" : "max-w-7xl lg:pl-[10rem]"}`}>
-            <div className='flex flex-col float-right w-full mt-12 h-screen overflow-y-scroll dark:bg-gray-900 dark:text-white'>
+          <div className={`flex flex-row ${hideLeftBar ? "max-w-full" : "max-w-full lg:pl-[10rem]"}`}>
+            <div className={`flex flex-col float-right ${hideLeftBar ? "w-full" : "w-4/6"} mt-12 h-screen overflow-y-scroll dark:bg-gray-900 dark:text-white`}>
             <Routes>
 
             {/* Login routes */}
@@ -133,10 +133,17 @@ function App() {
 
             </Routes>
             </div>
+            {!hideLeftBar && (
+              <div className='flex flex-col float-right w-2/6 mt-20 w-96 h-[36rem] bg-todoListColor border-[1px] border-todoListBorder overflow-y-scroll'>
+                <div className='py-2 px-4'>
+                  <span className='font-bold text-sm border-b-[1px]'>TODO LIST</span>
+                </div>
+              </div>
+            )}
 
             <ChatContextProvider>
               {!hideLeftBar && (
-                <div className={`hidden lg:block top-12 ${showChat ? "w-1/2" : "w-[10rem]"} p-2 fixed bottom-0 right-[max(0px,calc(50%-45rem))] h-screen bg-white border-l-[1px] dark:border-gray-400 dark:bg-black dark:text-white`}>
+                <div className={`hidden lg:block top-12 ${showChat ? "w-1/2" : "w-0"} p-2 fixed bottom-0 right-[max(0px,calc(50%-45rem))] h-screen bg-white border-l-[1px] dark:border-gray-400 dark:bg-black dark:text-white`}>
                   <div className='flex flex-row border-b-[1px]'>
                     <button onClick={() => setshowChat(!showChat)} className='dark:fill-white'>
                       {!showChat ?   <svg xmlns="http://www.w3.org/2000/svg" height="48" width="48">

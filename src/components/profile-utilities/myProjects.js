@@ -1,4 +1,4 @@
-import { getDocs, query, where } from 'firebase/firestore'
+import { getDocs, orderBy, query, where } from 'firebase/firestore'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../../contexts/authContext'
@@ -7,7 +7,7 @@ import NavBar from '../navbar'
 
 export default function MyProjects() {                                              // my project page
     
-    const { currentuser, username } = useAuth()
+    const { currentuser } = useAuth()
     const [myProjectsData,setmyProjectsData] = useState([])
     const [projectsData,setprojectsData] = useState([])
 
@@ -15,9 +15,9 @@ export default function MyProjects() {                                          
         async function fetchProjects(){
             let myProjectDataArray = []
             let projectDataArray = []
-            if(username != undefined){
-                const myProjectsQuery = query(database.projectsGroup('info'),where('admin','==',{uid:currentuser.uid,username:username}))
-                const projectsQuery = query(database.projectsGroup('info'),where('participants','array-contains',{uid:currentuser.uid,username:username}))
+            if(currentuser.displayName != undefined){
+                const myProjectsQuery = query(database.projectsGroup('info'),where('admin','==',{uid:currentuser.uid,username:currentuser.displayName}))
+                const projectsQuery = query(database.projectsGroup('info'),where('participants','array-contains',{uid:currentuser.uid,username:currentuser.displayName}))
                 const myProjectsQuerySnapshot = await getDocs(myProjectsQuery)          // fetch user created project
                 const projectsQuerySnapshot = await getDocs(projectsQuery)              // fetch project user has access to
 
@@ -35,8 +35,7 @@ export default function MyProjects() {                                          
         }
 
         fetchProjects()
-    },[username])
-    console.log(auth)
+    },[currentuser.displayName])
 
     return (
     <>
@@ -49,27 +48,25 @@ export default function MyProjects() {                                          
                     <div className='flex flex-col w-1/2'>                                           {/* my projects div tag */}
                         <span>My Projects</span>
                         {/* {!projectsExists && <span>No projects</span>} */}
-                        {myProjectsData && <div>{myProjectsData.map(doc => <div className='flex flex-row bg-gray-50 border rounded mt-2 mr-16 dark:border-gray-500 dark:bg-black' key={doc.name}>
+                        {myProjectsData && <div>{myProjectsData.map(doc => <Link to={`/${doc.name}`} className='flex flex-row bg-formColor border-[1px] border-borderBlack mt-2 mr-16 dark:border-gray-500 dark:bg-black transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-100' key={doc.name}>
                             <div className='flex flex-col'>
                                 <Link to={`/${doc.name}`} className='px-3 mt-3'>Project Name: {doc.name}</Link>
                                 <h2 className='px-3 mt-3'>Admin: {doc.admin.username}</h2>
                                 <h3 className='p-3'>Project description: {doc.tags}</h3>
                             </div>
-                            <Link to={`/${doc.name}`} className='bg-green-300 rounded-xl p-1 h-fit'>Open project</Link>
-                        </div>)}</div>}
+                        </Link>)}</div>}
                     </div>
 
                     <div className='flex flex-col w-1/2'>                                          {/* rest projects div tag */}
                         <span>Projects</span>
                         {/* {!projectsExists && <span>No projects</span>} */}
-                        {projectsData && <div>{projectsData.map(doc => <div className='flex flex-row bg-gray-50 border rounded mt-2 mr-16 dark:border-gray-500 dark:bg-black' key={doc.name}>
+                        {projectsData && <div>{projectsData.map(doc => <Link to={`/${doc.name}`} className='flex flex-row bg-formColor border-[1px] border-borderBlack mt-2 mr-16 dark:border-gray-500 dark:bg-black transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-100' key={doc.name}>
                             <div className='flex flex-col'>
                                 <Link to={`/${doc.name}`} className='px-3 mt-3'>Project Name: {doc.name}</Link>
                                 <h2 className='px-3 mt-3'>Admin: {doc.admin}</h2>
                                 <h3 className='p-3'>Project description: {doc.tags}</h3>
                             </div>
-                            <Link to={`/${doc.name}`} className='bg-green-300 rounded-xl p-1 h-fit'>Open project</Link>
-                        </div>)}</div>}
+                        </Link>)}</div>}
                     </div>
                 </div>
             </div>
