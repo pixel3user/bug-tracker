@@ -11,7 +11,7 @@ export default function CreateProject() {
     const descriptionRef = useRef()
     const repoRef = useRef()
     const navigate = useNavigate()
-    const { currentuser ,data} = useAuth()
+    const { currentuser} = useAuth()
 
     async function createProject(e){                                                      // create project form onsubmit function
         e.preventDefault()
@@ -22,7 +22,7 @@ export default function CreateProject() {
                 projectPic: null,
                 description: descriptionRef.current.value,
                 tags: tagsRef.current.value,
-                admin: {uid: currentuser.uid, username: data.username},
+                admin: {uid: currentuser.uid, username: currentuser.displayName},
                 answers: [],
                 participants: [],
                 repoLink: repoRef.current.value,

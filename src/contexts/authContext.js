@@ -14,7 +14,7 @@ const provider = new GithubAuthProvider()
 export function AuthProvider({children}){
     const [currentuser, setcurrentuser] =  useState()
     const [loading, setloading] = useState(true)
-    const [data,setdata] = useState()
+    // const [data,setdata] = useState()
 
     function login(){
         return signInWithPopup(auth, provider).then((result) => {
@@ -32,6 +32,7 @@ export function AuthProvider({children}){
     }
 
     function logout(){
+        localStorage.removeItem('content')
         return signOut(auth)
     }
 
@@ -66,22 +67,23 @@ export function AuthProvider({children}){
             if(docSnap.exists()){
               if(docSnap.data().username && docSnap.data().photoURL){
                 // await setCurrentUser(docSnap.data().username,docSnap.data().photoURL) // pass TODO here
-                setdata({picURL: docSnap.data().photoURL, username: docSnap.data().username})
+                setCurrentUser(docSnap.data().username,docSnap.data().photoURL)
               }
             }
           }
   
-        !data && fetch()
+        !currentuser && fetch()
 
         return unsubscribe
-    })
+    },)
 
     const value = {
         currentuser,
         login,
         logout,
-        data,
-        setdata
+        setCurrentUser
+        // data,
+        // setdata
     }
 
     return (

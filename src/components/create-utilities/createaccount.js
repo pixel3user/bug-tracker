@@ -10,7 +10,7 @@ export default function CreateAccount() {
     const navigate = useNavigate() 
     const usernameRef = useRef()
     const [formvisibility,setformvisibility] = useState(false)
-    const { currentuser,data,setdata } = useAuth()
+    const { currentuser,setCurrentUser } = useAuth()
 
     async function addNewUser(e){                                     // firebase custom function to add new user to database
         e.preventDefault()
@@ -30,7 +30,7 @@ export default function CreateAccount() {
 
           await setDoc(database.userChats(currentuser.uid), {});
           
-          setdata({picURL: currentuser.photoURL, username: usernameRef.current.value})
+          setCurrentUser(usernameRef.current.value,currentuser.photoURL)
 
         }catch(error){
           console.log(error)
@@ -53,7 +53,7 @@ export default function CreateAccount() {
           // }else{
           //   setformvisibility(true)
           // }
-          if(data === undefined){
+          if(currentuser.displayName === null){
             setformvisibility(true)
           }
           else{

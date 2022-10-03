@@ -7,7 +7,7 @@ import { database } from '../../firebase'
 export default function UpdateProfile() {
     const usernameRef = useRef()
     const [file, setfile] = useState(null)
-    const { currentuser,data,setdata } = useAuth()
+    const { currentuser , setCurrentUser } = useAuth()
 
     function changeProfilePic(e){                                                          // change profile pic function
         e.preventDefault()
@@ -18,7 +18,7 @@ export default function UpdateProfile() {
                     await updateDoc(database.user(currentuser.uid),{                       // update user document with profilepic url
                         photoURL: url
                     })
-                    setdata({picURL: url, username: data.username})
+                    setCurrentUser(null,url)
                 }catch(error){
                     console.log(error)
                 }
@@ -39,7 +39,7 @@ export default function UpdateProfile() {
 
                 <label>
                     <input type='file' onChange={e => { setfile(e.target.files[0])}} className='border-[1.5px] px-2'/>
-                    <button onClick={changeProfilePic} className='bg-blue-300 rounded m-2 p-1'>Update Profile Pic</button>
+                    <button onClick={changeProfilePic} className='bg-blue text-white hover:bg-darkBlue rounded m-2 p-1'>Update Profile Pic</button>
                 </label>
             </form>
         </div>

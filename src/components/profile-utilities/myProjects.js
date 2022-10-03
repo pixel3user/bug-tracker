@@ -7,7 +7,7 @@ import NavBar from '../navbar'
 
 export default function MyProjects() {                                              // my project page
     
-    const { currentuser ,data} = useAuth()
+    const { currentuser} = useAuth()
     const [myProjectsData,setmyProjectsData] = useState([])
     const [projectsData,setprojectsData] = useState([])
 
@@ -15,9 +15,9 @@ export default function MyProjects() {                                          
         async function fetchProjects(){
             let myProjectDataArray = []
             let projectDataArray = []
-            if(data.username != undefined){
-                const myProjectsQuery = query(database.projectsGroup('info'),where('admin','==',{uid:currentuser.uid,username:data.username}))
-                const projectsQuery = query(database.projectsGroup('info'),where('participants','array-contains',{uid:currentuser.uid,username:data.username}))
+            if(currentuser.displayName != undefined){
+                const myProjectsQuery = query(database.projectsGroup('info'),where('admin','==',{uid:currentuser.uid,username:currentuser.displayName}))
+                const projectsQuery = query(database.projectsGroup('info'),where('participants','array-contains',{uid:currentuser.uid,username:currentuser.displayName}))
                 const myProjectsQuerySnapshot = await getDocs(myProjectsQuery)          // fetch user created project
                 const projectsQuerySnapshot = await getDocs(projectsQuery)              // fetch project user has access to
 

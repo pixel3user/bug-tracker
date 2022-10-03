@@ -1,13 +1,12 @@
 import { arrayUnion, updateDoc } from 'firebase/firestore'
 import React, { useState } from 'react'
 import { useAuth } from '../../contexts/authContext'
-import { database } from '../../firebase'
 import TextAreaBody from '../textEditor'
 
 export default function Answers({reference}) { // reference = document reference for the bug post
 
     const [answer, setanswer] = useState()
-    const {currentuser,data} = useAuth()
+    const {currentuser} = useAuth()
 
     // firebase custom function to update answers array in database(adding answer)
     async function addAnswer(e){
@@ -17,7 +16,7 @@ export default function Answers({reference}) { // reference = document reference
             await updateDoc(reference,{
                 answers: arrayUnion(
                     {   answer:localStorage.getItem('content'),
-                        user: { uid: currentuser.uid , username: data.username},
+                        user: { uid: currentuser.uid , username: currentuser.displayName},
                         votes: [],
                         // creationTime: database.getCurrentTimeStamp()
                     }) // adding new answer #work needed right here ... make an object with uid

@@ -6,7 +6,7 @@ import { database } from '../../firebase'
 export default function AddComments({reference}){ // reference = document reference for the bug post
 
     const [commentBody,setcommentBody] = useState() 
-    const {currentuser,data} = useAuth()
+    const {currentuser} = useAuth()
 
     // firebase custom function to update comment array in database(adding comment)
     async function addComment(e){
@@ -17,7 +17,7 @@ export default function AddComments({reference}){ // reference = document refere
                 comments: arrayUnion(
                     {   comment: commentBody,
                         uid: currentuser.uid,
-                        username: data.username,
+                        username: currentuser.displayName,
                         // creationTime: database.getCurrentTimeStamp()
                     }) // adding new comment
             })
