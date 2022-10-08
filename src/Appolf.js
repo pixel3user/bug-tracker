@@ -1,5 +1,5 @@
 import './App.css';
-import { BrowserRouter as Router, Routes, Route ,Link } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route ,Link, useLocation } from 'react-router-dom'
 import { AuthProvider } from './contexts/authContext';
 import Dashboard from './components/login-utilities/dashboard';
 import Login from './components/login-utilities/auth/login';
@@ -31,63 +31,6 @@ function App() {
   const [page,setpage] = useState("")
   const [showChat,setshowChat] = useState(false)
 
-  function Element({page}){
-    switch(page){
-      case "/":
-        sethideLeftBar(true)
-        return <Dashboard />
-      case "/login":
-        sethideLeftBar(true)
-        return <Login/>
-      case "/home":
-        sethideLeftBar(false)
-        setpage("/home")
-        return <Home />
-      case "/profile":
-        sethideLeftBar(false)
-        setpage("")
-        return <Profile />
-      case "/my-projects":
-        sethideLeftBar(false)
-        setpage("/my-projects")
-        return <MyProjects />
-      case "/update-profile":
-        sethideLeftBar(true)
-        return <UpdateProfile />
-      case "/other-profile":
-        sethideLeftBar(false)
-        setpage("")
-        return <OtherProfile />
-      case "/project":
-        sethideLeftBar(false)
-        setpage("")
-        return <Project />
-      case "/bug-posts":
-        sethideLeftBar(false)
-        setpage("")
-        return <BugPosts />
-      case "/bug-post":
-        sethideLeftBar(false)
-        setpage("")
-        return <BugPost />
-      case "/edit-project":
-        sethideLeftBar(false)
-        setpage("")
-        return <EditProject />
-      case "/create-account":
-        sethideLeftBar(true)
-        return <CreateAccount />
-      case "/create-project":
-        sethideLeftBar(false)
-        setpage("/create-project")
-        return <CreateProject />
-      case "/create-bugpost":
-        sethideLeftBar(false)
-        setpage("")
-        return <CreateBugPost />
-    }
-  }
-
   return (
     <AuthProvider>
       <Router>
@@ -107,30 +50,30 @@ function App() {
 
             {/* Login routes */}
 
-              <Route path='/login' element={<Element page={"/login"}/>} />
-              {/* <Route path='/' element={<Dashboard hideLeftBar={sethideLeftBar}/>} /> */}
-              <Route path='/' element={<Element page={"/"}/>} />
+              <Route path='/login' element={<Login />} loader={() => sethideLeftBar(true)} />
+              <Route path='/' element={<Dashboard />} />
               
               {/* Profile utilities */}
-
-              <Route path='/home' element={<PrivateRoute><Element page={"/home"}/></PrivateRoute>} />
-              <Route path='/profile' element={<PrivateRoute><Element page={"/profile"}/></PrivateRoute>} />
-              <Route path='/my-projects' element={<PrivateRoute><Element page={"/my-projects"}/></PrivateRoute>} />
-              <Route path='/update-profile' element={<PrivateRoute><Element page={"/update-profile"}/></PrivateRoute>} />
-              <Route path='/profile/:id' element={<PrivateRoute><Element page={"/other-profile"}/></PrivateRoute>} />
+              <Route path='/home' element={<PrivateRoute><Home /></PrivateRoute>} />
+              <Route path='/profile' element={<PrivateRoute><Profile /></PrivateRoute>} />
+              <Route path='/my-projects' element={<PrivateRoute><MyProjects /></PrivateRoute>} />
+              <Route path='/update-profile' element={<PrivateRoute><UpdateProfile /></PrivateRoute>} />
+              <Route path='/profile/:id' element={<PrivateRoute><OtherProfile /></PrivateRoute>} />
 
               {/* Project utilities */}
 
-              <Route path='/:id' element={<PrivateRoute><Element page={"/project"}/></PrivateRoute>} />
-              <Route path='/:id/bugposts' element={<PrivateRoute><Element page={"/bug-posts"}/></PrivateRoute>} />
-              <Route path='/:id/:bugid' element={<PrivateRoute><Element page={"/bug-post"}/></PrivateRoute>} />
-              <Route path='/:id/edit' element={<PrivateRoute><Element page={"/edit-project"}/></PrivateRoute>} />
+              <Route path='/:id' element={<PrivateRoute><Project /></PrivateRoute>} />
+              <Route path='/:id/bugposts' element={<PrivateRoute><BugPosts /></PrivateRoute>} />
+              <Route path='/:id/:bugid' element={<PrivateRoute><BugPost /></PrivateRoute>} />
+              <Route path='/:id/edit' element={<PrivateRoute><EditProject /></PrivateRoute>} />
 
               {/* Create utilities */}
 
-              <Route path='/create-project' element={<PrivateRoute><Element page={"/create-project"}/></PrivateRoute>} />
-              <Route path='/create-account' element={<PrivateRoute><Element page={"/create-account"}/></PrivateRoute>} />
-              <Route path='/:id/addbugpost' element={<PrivateRoute><Element page={"/create-bugpost"}/></PrivateRoute>} />
+              <Route path='/create-project' element={<PrivateRoute><CreateProject /></PrivateRoute>} />
+              <Route path='/create-account' element={<PrivateRoute><CreateAccount /></PrivateRoute>} />
+              <Route path='/:id/addbugpost' element={<PrivateRoute><CreateBugPost /></PrivateRoute>} />
+
+              {/* Test route */}
 
 
             </Routes>

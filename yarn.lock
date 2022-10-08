@@ -7998,13 +7998,20 @@
   "resolved" "https://registry.npmjs.org/react-refresh/-/react-refresh-0.11.0.tgz"
   "version" "0.11.0"
 
-"react-router-dom@^6.3.0":
+"react-router-dom@^6.0.0", "react-router-dom@^6.3.0":
   "integrity" "sha512-uaJj7LKytRxZNQV8+RbzJWnJ8K2nPsOOEuX7aQstlMZKQT0164C+X2w6bnkqU3sjtLvpd5ojrezAyfZ1+0sStw=="
   "resolved" "https://registry.npmjs.org/react-router-dom/-/react-router-dom-6.3.0.tgz"
   "version" "6.3.0"
   dependencies:
     "history" "^5.2.0"
     "react-router" "6.3.0"
+
+"react-router-loading@^1.0.0":
+  "integrity" "sha512-aEpqiyDrBGbDOhFiKSuXzI78FZIMmjV1+Rok6rBFdbrrifNdg3XnzU48zBPm4r/E2YShtcsYLvIZ74DU5EVMxw=="
+  "resolved" "https://registry.npmjs.org/react-router-loading/-/react-router-loading-1.0.0.tgz"
+  "version" "1.0.0"
+  dependencies:
+    "topbar" "^1.0.1"
 
 "react-router@6.3.0":
   "integrity" "sha512-7Wh1DzVQ+tlFjkeo+ujvjSqSJmkt1+8JO+T5xklPlgrh70y7ogx75ODRW0ThWhY7S+6yEDks8TYrtQe/aoboBQ=="
@@ -9121,6 +9128,11 @@
 "toidentifier@1.0.1":
   "integrity" "sha512-o5sSPKEkg/DIQNmH43V0/uerLrpzVedkUh8tGNvaeXpfpuwjKenlSox/2O/BTlZUtEe+JG7s5YhEz608PlAHRA=="
   "resolved" "https://registry.npmjs.org/toidentifier/-/toidentifier-1.0.1.tgz"
+  "version" "1.0.1"
+
+"topbar@^1.0.1":
+  "integrity" "sha512-HZqQSMBiG29vcjOrqKCM9iGY/h69G5gQH7ae83ZCPz5uPmbQKwK0sMEqzVDBiu64tWHJ+kk9NApECrF+FAAvRA=="
+  "resolved" "https://registry.npmjs.org/topbar/-/topbar-1.0.1.tgz"
   "version" "1.0.1"
 
 "tough-cookie@^4.0.0":
