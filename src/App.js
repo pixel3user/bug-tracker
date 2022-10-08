@@ -107,30 +107,30 @@ function App() {
 
             {/* Login routes */}
 
-              <Route path='/login' element={<Element page={"/login"}/>} />
+              <Route path='/login'  element={<Element page={"/login"}/>} />
               {/* <Route path='/' element={<Dashboard hideLeftBar={sethideLeftBar}/>} /> */}
-              <Route path='/' element={<Element page={"/"}/>} />
+              <Route path='/'  element={<Element page={"/"}/>} />
               
               {/* Profile utilities */}
 
-              <Route path='/home' element={<PrivateRoute><Element page={"/home"}/></PrivateRoute>} />
-              <Route path='/profile' element={<PrivateRoute><Element page={"/profile"}/></PrivateRoute>} />
-              <Route path='/my-projects' element={<PrivateRoute><Element page={"/my-projects"}/></PrivateRoute>} />
-              <Route path='/update-profile' element={<PrivateRoute><Element page={"/update-profile"}/></PrivateRoute>} />
-              <Route path='/profile/:id' element={<PrivateRoute><Element page={"/other-profile"}/></PrivateRoute>} />
+              <Route path='/home'  element={<PrivateRoute><Element page={"/home"}/></PrivateRoute>} />
+              <Route path='/profile'  element={<PrivateRoute><Element page={"/profile"}/></PrivateRoute>} />
+              <Route path='/my-projects'  element={<PrivateRoute><Element page={"/my-projects"}/></PrivateRoute>} />
+              <Route path='/update-profile'  element={<PrivateRoute><Element page={"/update-profile"}/></PrivateRoute>} />
+              <Route path='/profile/:id'  element={<PrivateRoute><Element page={"/other-profile"}/></PrivateRoute>} />
 
               {/* Project utilities */}
 
-              <Route path='/:id' element={<PrivateRoute><Element page={"/project"}/></PrivateRoute>} />
-              <Route path='/:id/bugposts' element={<PrivateRoute><Element page={"/bug-posts"}/></PrivateRoute>} />
-              <Route path='/:id/:bugid' element={<PrivateRoute><Element page={"/bug-post"}/></PrivateRoute>} />
-              <Route path='/:id/edit' element={<PrivateRoute><Element page={"/edit-project"}/></PrivateRoute>} />
+              <Route path='/:id'  element={<PrivateRoute><Element page={"/project"}/></PrivateRoute>} />
+              <Route path='/:id/bugposts'  element={<PrivateRoute><Element page={"/bug-posts"}/></PrivateRoute>} />
+              <Route path='/:id/:bugid'  element={<PrivateRoute><Element page={"/bug-post"}/></PrivateRoute>} />
+              <Route path='/:id/edit'  element={<PrivateRoute><Element page={"/edit-project"}/></PrivateRoute>} />
 
               {/* Create utilities */}
 
-              <Route path='/create-project' element={<PrivateRoute><Element page={"/create-project"}/></PrivateRoute>} />
-              <Route path='/create-account' element={<PrivateRoute><Element page={"/create-account"}/></PrivateRoute>} />
-              <Route path='/:id/addbugpost' element={<PrivateRoute><Element page={"/create-bugpost"}/></PrivateRoute>} />
+              <Route path='/create-project'  element={<PrivateRoute><Element page={"/create-project"}/></PrivateRoute>} />
+              <Route path='/create-account'  element={<PrivateRoute><Element page={"/create-account"}/></PrivateRoute>} />
+              <Route path='/:id/addbugpost'  element={<PrivateRoute><Element page={"/create-bugpost"}/></PrivateRoute>} />
 
 
             </Routes>

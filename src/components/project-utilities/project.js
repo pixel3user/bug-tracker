@@ -29,8 +29,6 @@ export default function Project() {                            // this page is m
                         )
                 }
             })
-
-
         }
 
         fetchProject()
