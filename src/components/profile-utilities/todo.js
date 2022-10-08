@@ -9,8 +9,8 @@ export default function Todo() {
     const [todoValue,settodoValue] = useState()
     const { currentuser } = useAuth()
 
-    async function addTodo(){                                                       
-        
+    async function addTodo(e){                                                       
+        e.preventDefault()
         if(todoValue){
             try{
                 await updateDoc(database.user(currentuser.uid),{                               
@@ -53,17 +53,17 @@ export default function Todo() {
 
         }
     
-        fetchTODO()
+        currentuser && fetchTODO()
       },[])
 
    return (
     <div className='flex flex-col py-2 px-4 hidden lg:block float-right w-2/6 mt-20 w-96 h-[36rem] bg-todoListColor dark:bg-todoListBorder border-[1px] border-todoListBorder overflow-y-scroll'>
         <div className='border-b-[1px]'>
             <span className='font-bold text-sm'>TODO LIST</span>
-            <div className='flex flex-row m-1'>
-            <input value={todoValue} onChange={e => settodoValue(e.target.value)} className='mx-1 px-1 rounded-sm w-full' />
-            <button onClick={addTodo} className='px-1 h-fit bg-blue text-white rounded-sm hover:bg-darkBlue'>add</button>
-            </div>
+            <form onSubmit={addTodo} className='flex flex-row m-1'>
+                <input onChange={e => settodoValue(e.target.value)} className='mx-1 px-1 rounded-sm w-full' />
+                <button className='px-1 h-fit bg-blue text-white rounded-sm hover:bg-darkBlue'>add</button>
+            </form>
         </div>
         <div className='my-3 flex flex-col'>
             {todo && todo.map(todo => (

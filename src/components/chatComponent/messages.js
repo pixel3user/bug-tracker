@@ -18,7 +18,6 @@ export default function Messages() {
       };
     }, [data.chatId]);
   
-    console.log(messages)
   
     return (
       <div className="h-4/6 overflow-auto">

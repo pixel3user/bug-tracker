@@ -65,11 +65,11 @@ export default function NavBar({showChat,setshowChat}) {                        
   return (
     <header className='h-12 bg-navBar border-t-[3px] border-navBarBorder dark:bg-black dark:border-b-[1px] dark:border-b-white fixed w-full top-0 shadow-lg'>
         <div className='w-5/6 mx-auto'>
-            <div className='absolute text-xl dark:text-white flex justify-center items-center h-12 w-12'>
+            <Link to={'/home'} className='absolute text-xl dark:text-white flex justify-center items-center h-12 w-12'>
                 {/* <img src='https://firebasestorage.googleapis.com/v0/b/test-project-42b86.appspot.com/o/logo.webp?alt=media&token=6509fcd6-c2b3-4324-9db5-927d3e8f9a39'/> */}
                 <span className='font-light'>Bug</span>
                 <span className='font-bold'>Tracker</span>
-            </div>
+            </Link>
             
             <div className='flex flex-col items-end'>
                 <div onClick={menuVisibility} className='h-12 w-12 p-2 group md:hidden'>

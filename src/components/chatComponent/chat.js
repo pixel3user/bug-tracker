@@ -5,7 +5,7 @@ import Messages from './messages'
 
 export default function Chat({showChat}) {
     const { data } = useContext(ChatContext)
-    console.log(data.user?.username)
+  
   return (
     <div className={`${showChat ? "block" : "hidden"} w-2/3 h-screen`}>
       <div className="m-2 border-b-[1.5px]">

@@ -163,7 +163,6 @@ export default function CreateBugPost() {
     async function createBugPost(e){                                          // form submit function
         e.preventDefault()
         try{
-          console.log(localStorage.getItem('content'))
             await addDoc(collection(database.projects,id,'data'),{            // adding bug post data to project CollectionGroup data
                 title: title,
                 body: localStorage.getItem('content'),
@@ -185,7 +184,7 @@ export default function CreateBugPost() {
                 <label className='text-xl font-semibold mx-auto'>Create a Bug Post</label>
                 <label className='flex flex-col m-3'>
                   <span className='text-md font-semibold'>Title</span>
-                  <input className='p-1 border-[1.5px] border-inputBorderColor rounded dark:text-black' placeholder='Title' onChange={e => settitle(e.target.value)}/>
+                  <input required className='p-1 border-[1.5px] border-inputBorderColor rounded dark:text-black' placeholder='Title' onChange={e => settitle(e.target.value)}/>
                 </label>
                 <label className='flex flex-col m-3'>
                   <span className='text-md font-semibold'>Body</span>

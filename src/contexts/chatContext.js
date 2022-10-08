@@ -15,19 +15,20 @@ import { useAuth } from "./authContext";
     };
   
     const chatReducer = (state, action) => {
-      switch (action.type) {
-        case "CHANGE_USER":
-          console.log(action.payload)
-          return {
-            user: action.payload,
-            chatId:
-              currentuser.uid > action.payload.uid
-                ? currentuser.uid + action.payload.uid
-                : action.payload.uid + currentuser.uid,
-          };
-  
-        default:
-          return state;
+      if(currentuser){
+        switch (action.type) {
+          case "CHANGE_USER":
+            return {
+              user: action.payload,
+              chatId:
+                currentuser.uid > action.payload.uid
+                  ? currentuser.uid + action.payload.uid
+                  : action.payload.uid + currentuser.uid,
+            };
+    
+          default:
+            return state;
+        }
       }
     };
   

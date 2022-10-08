@@ -50,7 +50,7 @@ export default function MyProjects() {                                          
                         {/* {!projectsExists && <span>No projects</span>} */}
                         {myProjectsData && <div>{myProjectsData.map(doc => <Link to={`/${doc.name}`} className='flex flex-row bg-formColor border-[1px] border-borderBlack mt-2 mr-16 dark:border-gray-500 dark:bg-black transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-100' key={doc.name}>
                             <div className='flex flex-col'>
-                                <Link to={`/${doc.name}`} className='px-3 mt-3'>Project Name: {doc.name}</Link>
+                                <div className='px-3 mt-3'>Project Name: {doc.name}</div>
                                 <h2 className='px-3 mt-3'>Admin: {doc.admin.username}</h2>
                                 <h3 className='p-3'>Project description: {doc.description}</h3>
                             </div>
@@ -62,7 +62,7 @@ export default function MyProjects() {                                          
                         {/* {!projectsExists && <span>No projects</span>} */}
                         {projectsData && <div>{projectsData.map(doc => <Link to={`/${doc.name}`} className='flex flex-row bg-formColor border-[1px] border-borderBlack mt-2 mr-16 dark:border-gray-500 dark:bg-black transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-100' key={doc.name}>
                             <div className='flex flex-col'>
-                                <Link to={`/${doc.name}`} className='px-3 mt-3'>Project Name: {doc.name}</Link>
+                                <div className='px-3 mt-3'>Project Name: {doc.name}</div>
                                 <h2 className='px-3 mt-3'>Admin: {doc.admin}</h2>
                                 <h3 className='p-3'>Project description: {doc.tags}</h3>
                             </div>

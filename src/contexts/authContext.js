@@ -61,19 +61,6 @@ export function AuthProvider({children}){
             setloading(false)
         })
 
-        async function fetch(){
-            const ref = database.user(currentuser.uid)
-            const docSnap = await getDoc(ref)                           // checking if existing user database exists in users collection
-            if(docSnap.exists()){
-              if(docSnap.data().username && docSnap.data().photoURL){
-                // await setCurrentUser(docSnap.data().username,docSnap.data().photoURL) // pass TODO here
-                setCurrentUser(docSnap.data().username,docSnap.data().photoURL)
-              }
-            }
-          }
-  
-        !currentuser && fetch()
-
         return unsubscribe
     },)
 

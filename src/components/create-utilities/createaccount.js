@@ -40,29 +40,12 @@ export default function CreateAccount() {
       }
 
     useEffect( () => {
-        async function fetch(){
-          // const ref = database.user(currentuser.uid)
-          // const docSnap = await getDoc(ref)                           // checking if existing user database exists in users collection
-          // if(docSnap.exists()){
-          //   if(!docSnap.data().username){
-          //     setformvisibility(true)
-          //   }else{
-          //     await setCurrentUser(docSnap.data().username,docSnap.data().photoURL)
-          //     navigate('/home')
-          //   }
-          // }else{
-          //   setformvisibility(true)
-          // }
-          if(currentuser.displayName === null){
-            setformvisibility(true)
-          }
-          else{
-            navigate('/home')
-          }
-          
+        if(currentuser.displayName === null){
+          setformvisibility(true)
         }
-
-        fetch()
+        else{
+          navigate('/home')
+        }
     })
 
   return (

@@ -6,8 +6,8 @@ export default function ChatNavBar() {
   return (
     <div className='navbar'>
       <div className="flex flex-row p-3">
-        <img width={"48px"} height={"48px"} src={currentuser.photoURL} alt="" />
-        <span className='mx-4'>{currentuser.displayName}</span>
+        <img className='w-10 h-10 rounded-full object-cover' src={currentuser?.photoURL} alt="pic" />
+        <span className='mx-4'>{currentuser?.displayName}</span>
       </div>
     </div>
   )

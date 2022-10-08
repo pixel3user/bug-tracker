@@ -56,11 +56,16 @@ const CodeElement = props => {
     },
   }
 
-export default function TextAreaBody({value = null,showButtons = false}){
+export default function TextAreaBody({value = localStorage.getItem('content'),showButtons = false}){
     const [editor] = useState(() => withReact(createEditor()))
   
     const initialValue = useMemo(
-      () => value != null ? JSON.parse(value) : JSON.parse(localStorage.getItem('content')),
+      () => JSON.parse(value) || [
+        {
+          type: 'paragraph',
+          children: [{ text: '' }],
+        },
+      ],
       []
     )
     

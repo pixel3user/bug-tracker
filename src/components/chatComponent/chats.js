@@ -21,16 +21,14 @@ export default function Chats() {
         };
       };
   
-      currentuser.uid && getChats();
-    }, [currentuser.uid]);
+      currentuser && getChats();
+    }, [currentuser]);
   
     const handleSelect = (u) => {
-      console.log(u)
       dispatch({ type: "CHANGE_USER", payload: u });
     };
     
-    console.log(chats)
-    return (
+  return (
       <div className="flex flex-col">
         {Object.entries(chats)?.sort((a,b)=>b[1].date - a[1].date).map((chat) => (
           <div
@@ -38,7 +36,7 @@ export default function Chats() {
             key={chat[0]}
             onClick={() => handleSelect(chat[1].userInfo)}
           >
-            <img width={"48px"} height={"48px"} className="rounded-full" src={chat[1].userInfo.photoURL} alt="" />
+            <img className='w-10 h-10 rounded-full object-cover' src={chat[1].userInfo.photoURL} alt="" />
             <div className="flex flex-col justify-center items-center mx-3">
               <span>{chat[1].userInfo.username}</span>
               {/* <p>{chat[1].lastMessage?.text}</p> */}

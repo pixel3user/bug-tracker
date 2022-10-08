@@ -20,7 +20,8 @@ export default function BugPost() {
             await getDocs(q)
             .then(files => {
                 if(files !== undefined){
-                    setbugpostsdata(files.docs.map(file => ({data:file.data(),ref: file.ref})))
+                    // setbugpostsdata(files.docs.map(file => ({data:file.data(),ref: file.ref})))
+                    setbugpostsdata({data: files.docs[0].data(), ref: files.docs[0].ref})
                     setloading(false)
                 }
             })
@@ -51,7 +52,6 @@ export default function BugPost() {
         }
     }
 
-    
 return (
     <>
 
@@ -60,69 +60,69 @@ return (
             {/* All Bug posts div tag */}
 
             <div className='flex flex-col'>
-                {!loading && bugpostsdata.map(bug => (                                     // bug object having bug ref and bug data
-                    <>
-                      <div className='py-4 px-6 flex flex-col border-b-[1px] border-borderBlack'>
-                        <span className='text-2xl'>{bug.data.title}</span>
-                        <span className='text-sm text-borderBlack'>{bug.data.creationTime.toDate().toDateString()}</span>
+                {!loading && (
+                  <>
+                    <div className='py-4 px-6 flex flex-col border-b-[1px] border-borderBlack'>
+                      <span className='text-2xl'>{bugpostsdata.data.title}</span>
+                      <span className='text-sm text-borderBlack'>{bugpostsdata.data.creationTime.toDate().toDateString()}</span>
+                    </div>
+                    <div className='flex flex-row'>
+                      <div className='flex flex-col'>
+                        <img onClick={e => upvote(bugpostsdata.ref)} className='w-12 h-12 hover:cursor-pointer' src='/images/arrowup.svg' />
+                        <span className='mx-auto'>{bugpostsdata.data.votes.length}</span>
+                        <img className='w-12 h-12' src='/images/arrowdown.svg' />
                       </div>
-                      <div className='flex flex-row'>
-                        <div className='flex flex-col'>
-                          <img onClick={e => upvote(bug.ref)} className='w-12 h-12 hover:cursor-pointer' src='/images/arrowup.svg' />
-                          <span className='mx-auto'>{bug.data.votes.length}</span>
-                          <img className='w-12 h-12' src='/images/arrowdown.svg' />
+                      <div className='flex flex-col w-5/6 m-3 p-1 border-[TEST] border-borderBlack' key={bugpostsdata.data.title}>
+                                                                                        
+                        <div className='flex flex-row px-8 py-3 w-full'>                   {/* bug data display element */}
+                            {/* <button onClick={e => upvote(bugpostsdata.ref)} className='mx-5'>upvote</button> */}
                         </div>
-                        <div className='flex flex-col w-5/6 m-3 p-1 border-[TEST] border-borderBlack' key={bug.data.title}>
-                                                                                           
-                          <div className='flex flex-row px-8 py-3 w-full'>                   {/* bug data display element */}
-                              {/* <button onClick={e => upvote(bug.ref)} className='mx-5'>upvote</button> */}
-                          </div>
-                          <pre className='px-8 py-1 overflow-auto text-lg dark:bg-gray-700'>
-                              <TextAreaBody value={bug.data.body} />
-                          </pre>
-                          <h3 className='px-8 py-1 text-sm text-gray-500'>tags: {bug.data.tags}</h3>
+                        <pre className='px-8 py-1 overflow-auto text-lg dark:bg-gray-700'>
+                            <TextAreaBody value={bugpostsdata.data.body} />
+                        </pre>
+                        <h3 className='px-8 py-1 text-sm text-gray-500'>tags: {bugpostsdata.data.tags}</h3>
 
-                          <div className='flex flex-col mx-8 my-4 w-full border-t-[1px] border-borderBlack'>          {/* bug comments display element */}
-                                  {bug.data.comments.map(item => <div key={item.comment} className='flex flex-row w-full border-b-[1px] border-borderBlack justify-between'>
-                                      <div>
-                                        <h4>{item.comment}</h4>
-                                        <button onClick={e => deleteComment(item,bug.ref)} className='text-sm text-borderBlack'>delete</button>
-                                      </div>
-                                      <div className='flex flex-col'>
-                                        <a target='_blank' href={`/profile/${item.uid}`} className='ml-2 text-sm text-borderBlack'>Comment by: {item.username}</a>
-                                      </div>
-                                      <hr /></div>)}
-
-                                  <AddComments reference={bug.ref} />                            {/* add comment to bug post component */}
-
-                                  </div>
-
-
-                                  <h4>Answers</h4>                                                   {/* bug answers display element */}
-                                  <hr/>
-                                  <div className='p-1 w-full bg-yellow-50 dark:bg-gray-300'>{bug.data.answers.map(answer => (
-                                    <div className='flex w-full flex-row py-1 border-b-[1px] text-lg dark:bg-gray-700'>
-                                      <div className='flex flex-col w-[5%]'>
-                                        <img onClick={e => upvote(bug.ref)} className='w-8 h-8 mx-auto hover:cursor-pointer' src='/images/arrowup.svg' />
-                                        <span className='mx-auto text-sm'>{bug.data.votes.length}</span>
-                                        <img className='w-8 h-8 mx-auto' src='/images/arrowdown.svg' />
-                                      </div>
-                                      <div className='flex flex-row w-[95%] justify-between'>
-                                        <pre className='overflow-auto'>
-                                          <TextAreaBody value={answer.answer} />
-                                        </pre>
-                                        <a target='_blank' href={`/profile/${answer.user.uid}`} className="text-sm text-borderBlack h-fit">answered by: {answer.user.username}</a>
-                                      </div>
+                        <div className='flex flex-col mx-8 my-4 w-full border-t-[1px] border-borderBlack'>          {/* bug comments display element */}
+                                {bugpostsdata.data.comments.map(item => <div key={item.comment} className='flex flex-row w-full border-b-[1px] border-borderBlack justify-between'>
+                                    <div>
+                                      <h4>{item.comment}</h4>
+                                      <button onClick={e => deleteComment(item,bugpostsdata.ref)} className='text-sm text-borderBlack'>delete</button>
                                     </div>
-                                  ))}</div>
-                                  <h4>Add an Answer</h4>
+                                    <div className='flex flex-col'>
+                                      <a target='_blank' href={`/profile/${item.uid}`} className='ml-2 text-sm text-borderBlack'>Comment by: {item.username}</a>
+                                    </div>
+                                    <hr /></div>)}
 
-                                  <Answers reference={bug.ref}/>                                     {/* add answer to bug post component */}
-                              
-                        </div>
+                                <AddComments reference={bugpostsdata.ref} />                            {/* add comment to bug post component */}
+
+                                </div>
+
+
+                                <h4>Answers</h4>                                                   {/* bug answers display element */}
+                                <hr/>
+                                <div className='p-1 w-full bg-yellow-50 dark:bg-gray-300'>{bugpostsdata.data.answers.map(answer => (
+                                  <div key={answer.answer} className='flex w-full flex-row py-1 border-b-[1px] text-lg dark:bg-gray-700'>
+                                    <div className='flex flex-col w-[5%]'>
+                                      <img onClick={e => upvote(bugpostsdata.ref)} className='w-8 h-8 mx-auto hover:cursor-pointer' src='/images/arrowup.svg' />
+                                      <span className='mx-auto text-sm'>{bugpostsdata.data.votes.length}</span>
+                                      <img className='w-8 h-8 mx-auto' src='/images/arrowdown.svg' />
+                                    </div>
+                                    <div className='flex flex-row w-[95%] justify-between'>
+                                      <pre className='overflow-auto'>
+                                        <TextAreaBody value={answer.answer} />
+                                      </pre>
+                                      <a target='_blank' href={`/profile/${answer.user.uid}`} className="text-sm text-borderBlack h-fit">answered by: {answer.user.username}</a>
+                                    </div>
+                                  </div>
+                                ))}</div>
+                                <h4>Add an Answer</h4>
+
+                                <Answers reference={bugpostsdata.ref}/>                                     {/* add answer to bug post component */}
+                            
                       </div>
-                    </>
-                ))}
+                    </div>
+                </>
+                )}
             </div>
         </div>
 
